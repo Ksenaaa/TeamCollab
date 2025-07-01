@@ -22,15 +22,16 @@ model User {
   password      String
   accounts      Account[]
   sessions      Session[]
-  role          Role         @default(USER)
+  role          Role         @default(VIEWER)
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
   teams         TeamMember[]
-  Task          Task[]
-  Comment       Comment[]
+  task          Task[]
+  comment       Comment[]
 }
 
 model Account {
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId            String   @unique
   type              String
   provider          String
@@ -44,19 +45,17 @@ model Account {
   session_state     String?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([provider, providerAccountId])
 }
 
 model Session {
   sessionToken String   @unique
-  userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  userId       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model VerificationToken {
@@ -71,7 +70,8 @@ model Team {
   id        String       @id @default(uuid())
   name      String
   members   TeamMember[]
-  boards    Board[]
+  board     Board        @relation(fields: [boardId], references: [id])
+  boardId   String
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
 }
@@ -82,24 +82,38 @@ model TeamMember {
   userId    String
   team      Team     @relation(fields: [teamId], references: [id])
   teamId    String
-  role      Role
+  role      Role     @default(EDITOR_LIST)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([userId, teamId])
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  status      Status   @default(IN_PROGRESS)
+  boards      Board[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Board {
   id        String   @id @default(uuid())
-  title     String
-  team      Team     @relation(fields: [teamId], references: [id])
-  teamId    String
+  name      String
+  teams     Team[]
   lists     List[]
+  status    Status   @default(IN_PROGRESS)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  project   Project  @relation(fields: [projectId], references: [id])
+  projectId String
 }
 
 model List {
   id        String   @id @default(uuid())
-  title     String
+  name      String
   board     Board    @relation(fields: [boardId], references: [id])
   boardId   String
   tasks     Task[]
@@ -109,15 +123,17 @@ model List {
 
 model Task {
   id          String    @id @default(uuid())
-  title       String
+  name        String
   description String?
   list        List      @relation(fields: [listId], references: [id])
   listId      String
-  assigned    User?     @relation(fields: [assignedId], references: [id])
-  assignedId  String?
+  assigned    User      @relation(fields: [assignedId], references: [id])
+  assignedId  String
+  status      Status    @default(IN_PROGRESS)
+  dateEnd     DateTime
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  Comment     Comment[]
+  comment     Comment[]
 }
 
 model Comment {
@@ -132,6 +148,12 @@ model Comment {
 
 enum Role {
   ADMIN
-  USER
+  EDITOR_LIST
   VIEWER
+}
+
+enum Status {
+  IN_PROGRESS
+  DELAY
+  COMPLETED
 }

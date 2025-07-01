@@ -1,13 +1,7 @@
-import { Sidebar } from "@/components/sidebar/Sidebar";
+import ProjectPage from "./[projectId]/page";
 
-export default function Main({ children }: { children: React.ReactNode }) {
+export default function Main() {
   return (
-    <div className="min-h-screen bg-gray-100 font-sans text-gray-800 flex">
-      <Sidebar />
-
-      <main className="flex-1 p-8 overflow-auto">
-        {children}
-      </main>
-    </div>
+    <ProjectPage />
   );
 }
