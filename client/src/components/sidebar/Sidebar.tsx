@@ -13,9 +13,8 @@ export const Sidebar = () => {
     const pathname = usePathname()
     const isActive = (href: string) => pathname === `/${href}`
 
-    console.log(pathname)
     return (
-        <aside className="w-64 space-y-6 bg-white shadow-lg p-6 flex flex-col rounded-r-xl">
+        <aside className="w-0 invisible p-0 sm:visible sm:p-6 sm:w-64 space-y-6 bg-white shadow-lg flex flex-col rounded-r-xl">
             <div className="text-2xl font-bold text-indigo mb-8">
                 My Dashboard
             </div>
