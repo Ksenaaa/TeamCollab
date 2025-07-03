@@ -92,7 +92,7 @@ model TeamMember {
 model Project {
   id          String   @id @default(uuid())
   name        String
-  description String?
+  description String   @default("No description")
   status      Status   @default(IN_PROGRESS)
   boards      Board[]
   createdAt   DateTime @default(now())

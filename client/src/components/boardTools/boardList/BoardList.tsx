@@ -1,4 +1,5 @@
 import { List, Task } from "@/generated/prisma"
+import { BoardListTask } from "../boardListTask/BoardListTask"
 
 interface BoardListProps {
     list: List & {
@@ -9,15 +10,13 @@ interface BoardListProps {
 export const BoardList: React.FC<BoardListProps> = ({ list }) => {
 
     return (
-        <div className="w-64 bg-gray-100 p-4 rounded-xl shadow-sm">
-            <h3 className="text-lg font-semibold mb-3">{list.name}</h3>
-
-            <div className="flex flex-col gap-2">
+        <div className="w-full h-full max-w-full bg-white rounded-xl shadow-md">
+            <div className="w-full bg-gray-100 p-4 mb-3">
+                <h3 className="text-lg font-semibold">{list.name}</h3>
+            </div>
+            <div className="flex flex-col gap-2 p-4">
                 {list.tasks.map(task => (
-                    <div key={task.id} className="bg-white p-2 rounded-md shadow-sm">
-                        {task.name}
-                        {task.status}
-                    </div>
+                    <BoardListTask key={task.id} task={task} />
                 ))}
             </div>
         </div>

@@ -18,7 +18,7 @@ export const SidebarLink: React.FC<SidebarLinkProps> = ({ label, icon: Icon, hre
                     : 'text-gray-800 hover:text-blue'
                 }`}
         >
-            <Icon className='mr-3' />
+            <Icon className='mr-3 h-6 w-6' />
             {label}
         </Link>
     );
