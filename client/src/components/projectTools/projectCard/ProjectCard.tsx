@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Project } from "@/generated/prisma";
-import { StatusElement } from "../statusElement/StatusElement";
+import { StatusElement } from "@/components/statusElement/StatusElement";
 
 interface ProjectCardProps {
     project: Project;

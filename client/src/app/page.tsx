@@ -1,8 +1,8 @@
-import { Button } from "@/components/button/Button";
 import { Suspense } from "react";
 import { Loading } from "@/components/loading/Loading";
-import { ProjectCard } from "@/components/projectCard/ProjectCard";
 import prisma from "@/lib/prisma";
+import { CreateNewProject } from "@/components/projectTools/createNewProject/CreateNewProject";
+import { ProjectCard } from "@/components/projectTools/projectCard/ProjectCard";
 
 export default async function Main() {
   const projects = await prisma.project.findMany()
@@ -14,7 +14,7 @@ export default async function Main() {
 
       <div className="flex justify-between items-center mb-6">
         <h2 className="heading-secondary">Your Projects</h2>
-        <Button title="Add New Project" />
+        <CreateNewProject />
       </div>
 
       <Suspense fallback={<Loading />}>

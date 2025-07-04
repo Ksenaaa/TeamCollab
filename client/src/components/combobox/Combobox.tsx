@@ -22,8 +22,8 @@ export const ComboboxCustom = <T,>({ label, disabled, selected, options, display
     );
 
     return (
-        <Field disabled={disabled} className="space-y-1" aria-label={label}>
-            <Label className="text-sm font-medium text-gray-400">{label}</Label>
+        <Field disabled={disabled} aria-label={label}>
+            <Label className="text-sm font-medium text-indigo block text-start break-words">{label}</Label>
             <Combobox value={selected} onChange={onChange} onClose={() => setQuery('')}>
                 {({ open }) =>
                     <div>
