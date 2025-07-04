@@ -1,5 +1,5 @@
 export enum RouterPath {
-    HOME = 'home',
+    HOME = '/',
     BOARDS = 'boards',
     USERS = 'users',
     TEAMS = 'teams',
