@@ -1,9 +1,9 @@
 import { Suspense } from "react";
-import { Button } from "@/components/button/Button";
 import { StatusElement } from "@/components/statusElement/StatusElement";
 import prisma from "@/lib/prisma";
 import { Loading } from "@/components/loading/Loading";
 import { BoardCard } from "@/components/boardTools/boardCard/BoardCard";
+import { CreateNewBoard } from "@/components/boardTools/createNewBoard/CreateNewBoard";
 
 export default async function BoardsPage({ params }: {
   params: Promise<{ projectId: string }>
@@ -26,7 +26,7 @@ export default async function BoardsPage({ params }: {
 
       <div className="flex justify-between items-center mb-6">
         <h2 className="heading-secondary">All Boards:</h2>
-        <Button title="Add New Board" />
+        <CreateNewBoard projectId={projectId} />
       </div>
 
       <Suspense fallback={<Loading />}>
