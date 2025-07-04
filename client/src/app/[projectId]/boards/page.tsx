@@ -10,8 +10,10 @@ export default async function BoardsPage({ params }: {
 }) {
   const { projectId } = await params
 
-  const boards = await prisma.board.findMany({ where: { projectId } })
-  const project = await prisma.project.findUnique({ where: { id: projectId } })
+  const boardsData = prisma.board.findMany({ where: { projectId } })
+  const projectData = prisma.project.findUnique({ where: { id: projectId } })
+
+  const [boards, project] = await Promise.all([boardsData, projectData])
 
   if (!project) return
 
@@ -22,10 +24,8 @@ export default async function BoardsPage({ params }: {
         <StatusElement status={project.status} />
       </div>
 
-      <p className="text-description">Organize your tasks and projects visually</p>
-
       <div className="flex justify-between items-center mb-6">
-        <h2 className="heading-secondary">All Boards</h2>
+        <h2 className="heading-secondary">All Boards:</h2>
         <Button title="Add New Board" />
       </div>
 

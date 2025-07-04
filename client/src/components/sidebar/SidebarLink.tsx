@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ComponentType, SVGProps } from "react";
+import { ComponentType, SVGProps, } from "react";
 
 interface SidebarLinkProps {
     label: string;
