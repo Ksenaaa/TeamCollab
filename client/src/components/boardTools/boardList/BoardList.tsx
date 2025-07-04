@@ -12,7 +12,7 @@ export const BoardList: React.FC<BoardListProps> = ({ list }) => {
     return (
         <div className="w-full h-full max-w-full bg-white rounded-xl shadow-md">
             <div className="w-full bg-gray-100 p-4 mb-3">
-                <h3 className="text-lg font-semibold">{list.name}</h3>
+                <p className="text-lg font-semibold">{list.name}</p>
             </div>
             <div className="flex flex-col gap-2 p-4">
                 {list.tasks.map(task => (

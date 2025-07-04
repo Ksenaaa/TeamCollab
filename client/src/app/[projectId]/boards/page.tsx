@@ -1,9 +1,9 @@
 import { Suspense } from "react";
-import { BoardCard } from "@/components/boardCard/BoardCard";
 import { Button } from "@/components/button/Button";
 import { StatusElement } from "@/components/statusElement/StatusElement";
 import prisma from "@/lib/prisma";
 import { Loading } from "@/components/loading/Loading";
+import { BoardCard } from "@/components/boardTools/boardCard/BoardCard";
 
 export default async function BoardsPage({ params }: {
   params: Promise<{ projectId: string }>

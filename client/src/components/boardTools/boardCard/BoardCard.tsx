@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Board } from "@/generated/prisma";
-import { StatusElement } from "../statusElement/StatusElement";
+import { StatusElement } from "@/components/statusElement/StatusElement";
 
 interface BoardCardProps {
     board: Board
