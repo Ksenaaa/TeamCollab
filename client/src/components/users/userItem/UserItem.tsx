@@ -17,7 +17,7 @@ export const UserItem: React.FC<MemberItemProps> = ({ user }) => {
         <>
             <div
                 onClick={onToggle}
-                className="w-100 relative bg-white p-3 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-between border border-gray-200 cursor-pointer
+                className="w-70 relative bg-white p-3 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-between border border-gray-200 cursor-pointer
                      transform hover:-translate-[2px] hover:scale-100"
             >
                 <div className="flex items-center">
@@ -27,7 +27,6 @@ export const UserItem: React.FC<MemberItemProps> = ({ user }) => {
                     <div>
                         <p className="text-lg font-semibold text-gray-800">{user.name}</p>
                         <p className="text-gray-400 text-xs">{user.email}</p>
-                        <p className="text-gray-600 text-sm">{user.role}</p>
                     </div>
                 </div>
             </div>

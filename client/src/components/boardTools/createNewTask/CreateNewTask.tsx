@@ -1,12 +1,12 @@
 'use client'
 
 import { Button } from "@/components/button/Button";
-import { Board } from "@/generated/prisma";
+import { Board, List } from "@/generated/prisma";
 import { useToggle } from "@/utils/hooks/useToggle";
 import { CreateNewTaskModalForm } from "./CreateNewTaskModalForm";
 
 interface CreateNewTaskProps {
-    board: Board
+    board: Board & { lists: List[] }
 }
 
 export const CreateNewTask: React.FC<CreateNewTaskProps> = ({ board }) => {
@@ -14,7 +14,7 @@ export const CreateNewTask: React.FC<CreateNewTaskProps> = ({ board }) => {
 
     return (
         <>
-            <Button onClick={onToggle} title="Add Task" />
+            <Button onClick={onToggle} title="Add Task" disabled={board.lists.length === 0} />
             {isOpen &&
                 <CreateNewTaskModalForm
                     isOpenModal={isOpen}

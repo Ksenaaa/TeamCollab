@@ -15,7 +15,12 @@ export const Button: React.FC<ButtonProps> = ({
         <button
             onClick={onClick}
             disabled={disabled}
-            className="bg-indigo hover:bg-indigo-100 transition-all duration-200 transi text-white font-bold py-2 px-5 rounded-full shadow-lg transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo focus:ring-opacity-50 cursor-pointer"
+            className={`text-white font-bold py-2 px-5 rounded-full   
+                ${disabled
+                    ? 'bg-gray-200'
+                    : 'bg-indigo shadow-lg hover:bg-indigo-100 transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo focus:ring-opacity-50 cursor-pointer'
+                }
+            `}
         >
             {IconStart && <IconStart />}
             {title}
