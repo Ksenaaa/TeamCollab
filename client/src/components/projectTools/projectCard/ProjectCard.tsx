@@ -14,7 +14,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                  transform hover:-translate-y-1 hover:scale-102
                  bg-gradient-to-br from-purple via-yellow-100 to-green-100"
         >
-            <h3 className="text-xl font-semibold text-indigo mb-2">{project.name}</h3>
+            <p className="text-xl font-semibold text-indigo mb-2">{project.name}</p>
             <p className="text-gray-600 text-sm mb-4 line-clamp-2 truncate">{project.description}</p>
             <StatusElement status={project.status} />
         </Link>

@@ -14,7 +14,7 @@ export const BoardCard: React.FC<BoardCardProps> = ({ board }) => {
                  transform hover:-translate-y-1 hover:scale-102
                  bg-gradient-to-bl from-yellow-100 to-purple"
         >
-            <h3 className="text-xl font-semibold text-indigo mb-2">{board.name}</h3>
+            <p className="text-xl font-semibold text-indigo mb-2">{board.name}</p>
             <StatusElement status={board.status} />
         </Link>
     );

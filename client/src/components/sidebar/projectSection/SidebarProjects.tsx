@@ -17,7 +17,7 @@ export const SidebarProjects: React.FC<SidebarProjectsProps> = memo(({ projects,
                 displayValue={(project: Project | null) => project?.name || ''}
                 getKey={(project: Project) => project?.id}
                 label="Projects"
-                selected={selectedProject}
+                value={selectedProject}
                 onChange={onSelectProject}
             />
         </div>

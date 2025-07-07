@@ -1,24 +1,27 @@
 'use client'
 
-import { UseFormRegisterReturn } from "react-hook-form";
+import { FieldValues } from "react-hook-form";
 
-interface InputTextProps {
+export interface InputTextProps {
     name: string,
     label: string,
     type?: string,
+    value?: string | number,
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    errorText?: string | number,
     placeholder?: string,
     className?: string,
-    errorText?: string,
-    register: UseFormRegisterReturn,
+    field?: FieldValues
 }
 
-export const InputText: React.FC<InputTextProps> = ({ name, label, type, register, placeholder, errorText, className }) => {
+export const InputText: React.FC<InputTextProps> = ({ name, label, type, value, field, errorText, onChange, placeholder, className }) => {
     return (
         <div className="w-full">
             {label && <label htmlFor={name} className="text-sm font-medium text-indigo block text-start break-words">{label}</label>}
             <input
-                {...register}
                 id={name}
+                value={value || ''}
+                onChange={onChange}
                 name={name}
                 type={type}
                 placeholder={placeholder}
@@ -31,6 +34,7 @@ export const InputText: React.FC<InputTextProps> = ({ name, label, type, registe
                 `}
                 aria-invalid={!!errorText}
                 aria-describedby={errorText ? `${name}-error` : undefined}
+                {...field}
             />
             {errorText && (
                 <p className="mt-1 text-xs text-start break-words text-red" id={`${name}-error`}>

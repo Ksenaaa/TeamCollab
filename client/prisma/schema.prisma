@@ -15,17 +15,16 @@ datasource db {
 }
 
 model User {
-  id            String       @id @default(uuid())
+  id            String    @id @default(uuid())
   name          String
-  email         String       @unique
+  email         String    @unique
   emailVerified DateTime?
   password      String
   accounts      Account[]
   sessions      Session[]
-  role          Role         @default(VIEWER)
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  teams         TeamMember[]
+  role          Role      @default(VIEWER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
   task          Task[]
   comment       Comment[]
 }
@@ -66,29 +65,6 @@ model VerificationToken {
   @@id([identifier, token])
 }
 
-model Team {
-  id        String       @id @default(uuid())
-  name      String
-  members   TeamMember[]
-  board     Board        @relation(fields: [boardId], references: [id])
-  boardId   String
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
-}
-
-model TeamMember {
-  id        String   @id @default(uuid())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  team      Team     @relation(fields: [teamId], references: [id])
-  teamId    String
-  role      Role     @default(EDITOR_LIST)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([userId, teamId])
-}
-
 model Project {
   id          String   @id @default(uuid())
   name        String
@@ -102,7 +78,6 @@ model Project {
 model Board {
   id        String   @id @default(uuid())
   name      String
-  teams     Team[]
   lists     List[]
   status    Status   @default(IN_PROGRESS)
   createdAt DateTime @default(now())

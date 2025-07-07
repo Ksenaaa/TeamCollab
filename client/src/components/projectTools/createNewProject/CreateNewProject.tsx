@@ -6,15 +6,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/button/Button";
 import { ModalApp } from "@/components/modal/ModalApp";
 import { useToggle } from "@/utils/hooks/useToggle";
-import { CreateProjectSchema, ProjectFormData } from "./constants/createProjectSchema";
+import { ProjectSchema, ProjectFormData } from "./constants/projectSchema";
 import { createProjectAction } from "@/actions/projectActions";
-import { InputText } from "@/components/inputText/InputText";
+import { FormInput } from "@/components/form/FormInput";
 
-export const CreateNewProject = () => {
+export const CreateNewProject: React.FC = () => {
     const { isOpen, onToggle } = useToggle();
     const [isPending, startTransition] = useTransition();
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<ProjectFormData>({
-        resolver: zodResolver(CreateProjectSchema),
+    const { handleSubmit, control, reset } = useForm<ProjectFormData>({
+        resolver: zodResolver(ProjectSchema),
+        defaultValues: { name: '', description: '' }
     });
 
     const handleCloseModal = () => {
@@ -40,8 +41,8 @@ export const CreateNewProject = () => {
                 isPending={isPending}
             >
                 <div className="w-100 max-w-full flex flex-col gap-4">
-                    <InputText name="name" label="Name" errorText={errors.name?.message} register={register('name')} />
-                    <InputText name="description" label="Description" errorText={errors.description?.message} register={register('description')} />
+                    <FormInput fieldName="name" fieldLabel="Name" control={control} />
+                    <FormInput fieldName="description" fieldLabel="Description" control={control} />
                 </div>
             </ModalApp>
         </>

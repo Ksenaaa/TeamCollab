@@ -41,3 +41,14 @@ export async function deleteUserAction(id: string) {
         return { success: false, error: "Failed to delete user" };
     }
 }
+
+export async function getUsersShortAction() {
+    const users = await prisma.user.findMany({
+        select: {
+            id: true,
+            name: true,
+            email: true,
+        },
+    });
+    return users;
+}

@@ -3,18 +3,25 @@
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions, Field, Label } from '@headlessui/react'
 import { useState } from 'react'
 import ChevronUpDownIcon from '@/assets/icons/chevron-up-svgrepo-com.svg'
+import { LoadingIcon } from '../loading/Loading'
 
 interface ComboboxCustomProps<T> {
     options: T[],
-    selected: T | null,
-    onChange: (item: T) => void,
+    value?: T | null,
+    onChange?: (item: T) => void,
+    name?: string,
+    errorText?: string,
     label: string,
     disabled?: boolean,
     displayValue: (item: T) => string,
-    getKey: (item: T) => string | number;
+    getKey: (item: T) => string | number,
+    placeholder?: string,
+    isPending?: boolean,
 }
 
-export const ComboboxCustom = <T,>({ label, disabled, selected, options, displayValue, onChange, getKey }: ComboboxCustomProps<T>) => {
+export const ComboboxCustom = <T,>({
+    label, name, disabled, value, errorText, options, placeholder, isPending, displayValue, onChange, getKey
+}: ComboboxCustomProps<T>) => {
     const [query, setQuery] = useState('')
 
     const filteredOptions = options.filter((item) =>
@@ -24,16 +31,27 @@ export const ComboboxCustom = <T,>({ label, disabled, selected, options, display
     return (
         <Field disabled={disabled} aria-label={label}>
             <Label className="text-sm font-medium text-indigo block text-start break-words">{label}</Label>
-            <Combobox value={selected} onChange={onChange} onClose={() => setQuery('')}>
+            <Combobox name={name} value={value} onChange={onChange} onClose={() => setQuery('')}>
                 {({ open }) =>
                     <div>
                         <ComboboxButton className="relative w-full flex items-center cursor-pointer">
                             <ComboboxInput
-                                className="w-full cursor-pointer rounded-md border-0 bg-white py-1.5 pl-3 pr-7 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-inset focus:ring-indigo sm:text-sm sm:leading-6"
+                                className={`w-full cursor-pointer rounded-md border-0 bg-white py-1.5 pl-3 pr-7 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-inset focus:ring-indigo sm:text-sm sm:leading-6
+                                    ${errorText
+                                        ? 'border-red text-red focus:ring-red focus:border-red'
+                                        : 'border-gray-600'
+                                    }
+                                `}
+                                placeholder={placeholder}
                                 displayValue={displayValue}
                                 onChange={(event) => setQuery(event.target.value)}
+                                aria-invalid={!!errorText}
+                                aria-describedby={errorText ? `${name}-error` : undefined}
                             />
-                            <ChevronUpDownIcon className={`h-3 w-3 text-gray-400 absolute top-[50%] right-3 translate-y-[-50%] transition-transform ${open ? 'rotate-180' : ''}`} aria-hidden="true" />
+                            {isPending
+                                ? <LoadingIcon className='h-3 w-3 absolute top-[50%] right-3 translate-y-[-50%]' />
+                                : <ChevronUpDownIcon className={`h-3 w-3 text-gray-400 absolute top-[50%] right-3 translate-y-[-50%] transition-transform ${open ? 'rotate-180' : ''}`} aria-hidden="true" />
+                            }
                         </ComboboxButton>
                         <ComboboxOptions
                             anchor="bottom"
@@ -62,6 +80,11 @@ export const ComboboxCustom = <T,>({ label, disabled, selected, options, display
                     </div>
                 }
             </Combobox>
+            {errorText && (
+                <p className="mt-1 text-xs text-start break-words text-red" id={`${name}-error`}>
+                    {errorText}
+                </p>
+            )}
         </Field>
     )
 }
