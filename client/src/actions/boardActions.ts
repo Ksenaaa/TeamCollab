@@ -7,9 +7,8 @@ import { revalidatePath } from 'next/cache';
 export async function createBoardAction(data: Prisma.BoardCreateInput) {
     try {
         const board = await prisma.board.create({ data });
-        if (data.project.connect?.id) {
-            revalidatePath(`/${data.project.connect.id}/boards`);
-        }
+        revalidatePath(`/${data.project.connect?.id}/boards`);
+
         return board;
     } catch (error) {
         console.error("Error creating board:", error);

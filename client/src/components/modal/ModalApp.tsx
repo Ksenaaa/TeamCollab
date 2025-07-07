@@ -9,7 +9,7 @@ interface ModalAppProps {
     isOpen: boolean;
     header: string;
     children: React.ReactNode;
-    isPending: boolean;
+    isPending?: boolean;
     onAgree: () => void;
     onClose: () => void;
 }

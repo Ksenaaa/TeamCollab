@@ -14,8 +14,8 @@ export const BoardComponent: React.FC<BoardProps> = ({ board }) => {
         <div className="w-250 max-w-full h-150 border border-solid border-indigo rounded-xl p-4">
             <div className="h-full flex flex-col gap-4">
                 <div className="flex flex-col sm:flex-row gap-2 justify-between">
-                    <CreateNewTask />
-                    <CreateNewList />
+                    <CreateNewTask board={board} />
+                    <CreateNewList board={board} />
                 </div>
 
                 <div className="h-full grid md:grid-cols-1 lg:grid-cols-3 gap-3">

@@ -1,16 +1,27 @@
 'use client'
 
 import { Button } from "@/components/button/Button";
+import { useToggle } from "@/utils/hooks/useToggle";
+import { Board } from "@/generated/prisma";
+import { CreateNewListModalForm } from "./CreateNewListModalForm";
 
+interface CreateNewListProps {
+    board: Board
+}
 
-export const CreateNewList: React.FC = () => {
-    const handleAddList = () => {
-        console.log('Add List')
-    }
+export const CreateNewList: React.FC<CreateNewListProps> = ({ board }) => {
+    const { isOpen, onToggle } = useToggle();
 
     return (
-        <div className="flex flex-start">
-            <Button onClick={handleAddList} title="Add List" />
-        </div>
-    );
-};
+        <>
+            <Button onClick={onToggle} title="Add List" />
+            {isOpen &&
+                <CreateNewListModalForm
+                    isOpenModal={isOpen}
+                    onCloseModal={onToggle}
+                    board={board}
+                />
+            }
+        </>
+    )
+}

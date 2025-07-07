@@ -2,10 +2,13 @@
 
 import { Prisma } from '@/generated/prisma';
 import prisma from '@/lib/prisma'
+import { revalidatePath } from 'next/cache';
 
 export async function createTaskAction(data: Prisma.TaskCreateInput) {
     try {
         const task = await prisma.task.create({ data });
+        revalidatePath(`/${data.list.connect?.board?.projectId}/boards/${data.list.connect?.boardId}`);
+
         return task;
     } catch (error) {
         console.error("Error creating task:", error);

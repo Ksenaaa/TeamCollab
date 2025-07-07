@@ -2,10 +2,13 @@
 
 import { Prisma } from '@/generated/prisma';
 import prisma from '@/lib/prisma'
+import { revalidatePath } from 'next/cache';
 
 export async function createListAction(data: Prisma.ListCreateInput) {
     try {
         const list = await prisma.list.create({ data });
+        revalidatePath(`/${data.board.connect?.projectId}/boards/${data.board.connect?.id}`);
+
         return list;
     } catch (error) {
         console.error("Error creating list:", error);
@@ -36,4 +39,15 @@ export async function deleteListAction(id: string) {
         console.error("Error deleting list:", error);
         return { success: false, error: "Failed to delete list" };
     }
+}
+
+export async function getListsShortByBoardIdAction(boardId: string) {
+    const lists = await prisma.list.findMany({
+        where: { boardId },
+        select: {
+            id: true,
+            name: true,
+        }
+    });
+    return lists;
 }
