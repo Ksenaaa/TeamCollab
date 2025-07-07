@@ -1,4 +1,4 @@
-import { Board } from "@/generated/prisma";
+import { Board, List } from "@/generated/prisma";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { TaskFormData, TaskSchema } from "./constants/taskSchema";
@@ -6,14 +6,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ModalApp } from "@/components/modal/ModalApp";
 import { FormInput } from "@/components/form/FormInput";
 import { FormCombobox } from "@/components/form/FormCombobox";
-import { getListsShortByBoardIdAction } from "@/actions/listActions";
 import { useAsyncData } from "@/utils/hooks/useAsyncData";
 import { getUsersShortAction } from "@/actions/userActions";
 import { createTaskAction } from "@/actions/taskActions";
 import { defaultValuesTask } from "./constants/defaultValuesTask";
 
 interface CreateNewTaskModalFormProps {
-    board: Board,
+    board: Board & { lists: List[] }
     isOpenModal: boolean,
     onCloseModal: () => void,
 }
@@ -47,7 +46,6 @@ export const CreateNewTaskModalForm: React.FC<CreateNewTaskModalFormProps> = ({ 
         });
     })
 
-    const { data: dataLists, isPending: isPendingLists } = useAsyncData(() => getListsShortByBoardIdAction(board.id));
     const { data: dataUsers, isPending: isPendingUsers } = useAsyncData(getUsersShortAction);
 
     return (
@@ -68,8 +66,7 @@ export const CreateNewTaskModalForm: React.FC<CreateNewTaskModalFormProps> = ({ 
                     displayValue={(list) => list?.name || ''}
                     getKey={(list) => list.id}
                     control={control}
-                    options={dataLists}
-                    isPending={isPendingLists}
+                    options={board.lists}
                 />
                 <FormCombobox
                     fieldName="assigned"

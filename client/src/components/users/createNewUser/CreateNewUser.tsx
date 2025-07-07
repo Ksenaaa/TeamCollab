@@ -2,16 +2,16 @@
 
 import { Button } from "@/components/button/Button";
 import { useToggle } from "@/utils/hooks/useToggle";
-import { CreateNewProjectModalForm } from "./CreateNewProjectModalForm";
+import { CreateNewUserModalForm } from "./CreateNewUserModalForm";
 
-export const CreateNewProject: React.FC = () => {
+export const CreateNewUser: React.FC = () => {
     const { isOpen, onToggle } = useToggle();
 
     return (
         <>
-            <Button onClick={onToggle} title="Add New Project" />
+            <Button onClick={onToggle} title="Add User" />
             {isOpen &&
-                <CreateNewProjectModalForm
+                <CreateNewUserModalForm
                     isOpenModal={isOpen}
                     onCloseModal={onToggle}
                 />
