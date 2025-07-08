@@ -8,7 +8,7 @@ export default async function UsersPage() {
   const users = await prisma.user.findMany()
 
   return (
-    <div>
+    <div className="flex flex-col h-full">
       <h1 className="heading-primary">Users</h1>
       <p className="text-description">Manage all users</p>
 
@@ -18,7 +18,7 @@ export default async function UsersPage() {
       </div>
 
       <Suspense fallback={<Loading />}>
-        <div className="space-y-4">
+        <div className="space-y-4 overflow-scroll p-1">
           {users.map(user => (
             <UserItem key={user.id} user={user} />
           ))}

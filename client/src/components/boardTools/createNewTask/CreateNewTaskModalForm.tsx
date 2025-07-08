@@ -41,7 +41,6 @@ export const CreateNewTaskModalForm: React.FC<CreateNewTaskModalFormProps> = ({ 
                     connect: { id: data.list?.id, board: { projectId: board.projectId, id: board.id } }
                 },
             })
-
             handleCloseModal();
         });
     })

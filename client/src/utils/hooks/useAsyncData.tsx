@@ -1,6 +1,7 @@
+import { ActionResponseData } from "@/models/actionResponse";
 import { useEffect, useState, useTransition, useRef } from "react";
 
-export function useAsyncData<T>(action?: () => Promise<T[]>) {
+export function useAsyncData<T,>(action?: () => Promise<ActionResponseData<T[]>>) {
     const [data, setData] = useState<T[]>([]);
     const [isPending, startTransition] = useTransition();
 
@@ -16,10 +17,10 @@ export function useAsyncData<T>(action?: () => Promise<T[]>) {
         startTransition(() => {
             action()
                 .then((result) => {
-                    if (mountedRef.current) setData(result);
+                    if (mountedRef.current && result.success) setData(result.data);
                 })
                 .catch((error) => {
-                    console.error('Failed to fetch options:', error);
+                    console.error('Failed to fetch options:', error.message);
                 });
         });
     }, []);
