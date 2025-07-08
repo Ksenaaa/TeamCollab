@@ -5,9 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ModalApp } from "@/components/modal/ModalApp";
 import { FormInput } from "@/components/form/FormInput";
 import { FormCombobox } from "@/components/form/FormCombobox";
-import { createUserAction } from "@/actions/userActions";
 import { defaultValuesUser } from "./constants/defaultValuesUser";
 import { userRoles } from "@/utils/constants/userRoles";
+import { createUserAction } from "@/actions/userActions";
+import { toast } from "react-toastify";
 
 interface CreateNewUserModalFormProps {
     isOpenModal: boolean,
@@ -17,7 +18,7 @@ interface CreateNewUserModalFormProps {
 export const CreateNewUserModalForm: React.FC<CreateNewUserModalFormProps> = ({ isOpenModal, onCloseModal }) => {
     const [isPending, startTransition] = useTransition();
 
-    const { handleSubmit, control, reset } = useForm<UserFormData>({
+    const { handleSubmit, control, reset, setError, clearErrors } = useForm<UserFormData>({
         defaultValues: defaultValuesUser,
         resolver: zodResolver(UserSchema),
     });
@@ -25,13 +26,31 @@ export const CreateNewUserModalForm: React.FC<CreateNewUserModalFormProps> = ({ 
     const handleCloseModal = () => {
         onCloseModal();
         reset();
+        clearErrors();
     }
 
     const handleCreateUser = handleSubmit((data: UserFormData) => {
         startTransition(async () => {
-            await createUserAction({ ...data, role: data.role?.id })
+            const result = await createUserAction({ ...data, role: data.role?.id })
 
-            handleCloseModal();
+            if (result.success) {
+                toast.success(result.message);
+                handleCloseModal();
+                return
+            }
+
+            if (result.details) {
+                Object.entries(result.details).forEach(([field, messages]) => {
+                    setError(field as keyof UserFormData, {
+                        type: 'manual',
+                        message: messages.join(', '),
+                    });
+                });
+                toast.error(`Please correct the errors in the form`);
+                return
+            }
+
+            toast.error(`Error creating user: ${result.error || 'Unknown error'}`);
         });
     })
 

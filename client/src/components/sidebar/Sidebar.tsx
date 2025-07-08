@@ -6,12 +6,17 @@ import { mainLinks, projectLinks } from './utils/constants/sidebarLinks'
 import { SidebarProjects } from "./projectSection/SidebarProjects"
 import { memo, useCallback, useMemo } from "react"
 import { Project } from "@/generated/prisma"
+import { useSession } from "next-auth/react"
+import { SignInUser } from "../signIn/SignInUser"
+import { SignOutUser } from "../signout/SignOutUser"
 
 interface SidebarProps {
     projects: Project[]
 }
 
 export const Sidebar: React.FC<SidebarProps> = memo(({ projects }) => {
+    const { data: session, status } = useSession();
+
     const pathname = usePathname()
     const params = useParams()
     const router = useRouter();
@@ -27,34 +32,55 @@ export const Sidebar: React.FC<SidebarProps> = memo(({ projects }) => {
 
     return (
         <aside className="w-0 invisible p-0 sm:visible sm:p-6 sm:w-64 space-y-6 bg-white shadow-lg flex flex-col rounded-r-xl">
-            <div className="text-2xl font-bold text-indigo mb-8">
-                My Dashboard
+            <div className="flex flex-col items-start gap-2 mb-8 p-4 rounded-lg border-1 border-gray-200">
+                {session ? (
+                    <>
+                        <div className="flex flex-col">
+                            <p className="text-md font-semibold">{session.user?.name}</p>
+                            <p className="text-sm text-gray-400">{session.user?.email}</p>
+                            <p className="text-sm font-semibold text-gray-600">{`(Role: ${session.user?.role})`}</p>
+                        </div>
+                        <SignOutUser />
+                    </>
+                ) : (
+                    <>
+                        <p className="text-lg">Not signed in</p>
+                        <SignInUser />
+                    </>
+                )}
             </div>
-            <nav className="space-y-3">
-                {mainLinks.map((link) =>
-                    <SidebarLink
-                        key={link.href}
-                        label={link.label}
-                        icon={link.icon}
-                        href={link.href}
-                        isActive={pathname === `/${link.href}`}
-                    />
-                )}
-            </nav>
+            {session &&
+                <>
+                    <div className="text-2xl font-bold text-indigo mb-8">
+                        My Dashboard
+                    </div>
+                    <nav className="space-y-3">
+                        {mainLinks.map((link) =>
+                            <SidebarLink
+                                key={link.href}
+                                label={link.label}
+                                icon={link.icon}
+                                href={link.href}
+                                isActive={pathname === `/${link.href}`}
+                            />
+                        )}
+                    </nav>
 
-            <SidebarProjects projects={projects} selectedProject={selectedProject} onSelectProject={handleSelectProject} />
+                    <SidebarProjects projects={projects} selectedProject={selectedProject} onSelectProject={handleSelectProject} />
 
-            <nav className="space-y-3">
-                {selectedProject && projectLinks.map((link) =>
-                    <SidebarLink
-                        key={link.href}
-                        label={link.label}
-                        icon={link.icon}
-                        href={`${params?.projectId}/${link.href}`}
-                        isActive={pathname === `/${params?.projectId}/${link.href}`}
-                    />
-                )}
-            </nav>
+                    <nav className="space-y-3">
+                        {selectedProject && projectLinks.map((link) =>
+                            <SidebarLink
+                                key={link.href}
+                                label={link.label}
+                                icon={link.icon}
+                                href={`${params?.projectId}/${link.href}`}
+                                isActive={pathname === `/${params?.projectId}/${link.href}`}
+                            />
+                        )}
+                    </nav>
+                </>
+            }
         </aside>
     )
 })
