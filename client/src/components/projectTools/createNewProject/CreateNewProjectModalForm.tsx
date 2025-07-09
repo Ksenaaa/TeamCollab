@@ -36,7 +36,6 @@ export const CreateNewProjectModalForm: React.FC<CreateNewProjectModalFormProps>
             }
 
             toast.error(`Error creating project: ${result.error || 'Unknown error'}`);
-
         });
     })
 
