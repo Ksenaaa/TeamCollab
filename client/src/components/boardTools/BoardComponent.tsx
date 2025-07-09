@@ -1,14 +1,12 @@
 'use client'
 
-import { Board, List, Task } from "@/generated/prisma";
-import { BoardList } from "./boardList/BoardList";
-import { CreateNewTask } from "./createNewTask/CreateNewTask";
-import { CreateNewList } from "./boardList/createNewList/CreateNewList";
+import { BoardList } from "../boardList/BoardList";
+import { CreateNewTask } from "../boardListTask/createNewTask/CreateNewTask";
+import { CreateNewList } from "../boardList/createNewList/CreateNewList";
+import { BoardDataType } from "@/models/boardTypes";
 
 interface BoardProps {
-    board: Board & {
-        lists: (List & { tasks: Task[] })[]
-    }
+    board: BoardDataType
 }
 
 export const BoardComponent: React.FC<BoardProps> = ({ board }) => {

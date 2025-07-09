@@ -2,12 +2,12 @@
 
 import { ModalApp } from "@/components/modal/ModalApp"
 import { StatusElement } from "@/components/statusElement/StatusElement"
-import { Task } from "@/generated/prisma"
 import { useToggle } from "@/utils/hooks/useToggle"
-import { TaskData } from "./TaskData"
+import { TaskData } from "./taskData/TaskData"
+import { TaskWithAssignedType } from "@/models/boardTypes"
 
 interface BoardListProps {
-    task: Task
+    task: TaskWithAssignedType
 }
 
 export const BoardListTask: React.FC<BoardListProps> = ({ task }) => {

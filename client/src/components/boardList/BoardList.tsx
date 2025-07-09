@@ -1,12 +1,12 @@
-import { List, Task } from "@/generated/prisma"
+'use client'
+
 import { BoardListTask } from "../boardListTask/BoardListTask"
 import { DeleteBoardList } from "./deleteBoardList/DeleteBoardList"
 import { UpdateBoardList } from "./updateBoardList/UpdateBoardList"
+import { ListWithTaskType } from "@/models/boardTypes"
 
 interface BoardListProps {
-    list: List & {
-        tasks: Task[]
-    }
+    list: ListWithTaskType
 }
 
 export const BoardList: React.FC<BoardListProps> = ({ list }) => {

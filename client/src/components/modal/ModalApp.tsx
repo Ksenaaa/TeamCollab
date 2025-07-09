@@ -25,18 +25,15 @@ export const ModalApp = ({
         <ModalWrapper isOpen={isOpen} onClose={onClose}>
             <DialogPanel
                 transition
-                className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-max"
+                className="flex flex-col relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:w-full sm:max-w-max"
             >
-                <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <div className="text-center sm:mt-0 sm:text-left">
-                        <DialogTitle className="text-base font-semibold text-indigo">
-                            {header}
-                        </DialogTitle>
-
-                        <div className="mt-2">{children}</div>
-                    </div>
+                <DialogTitle className="text-base font-semibold text-indigo text-center sm:text-left bg-white px-2 sm:px-4 md:px-6 py-4">
+                    {header}
+                </DialogTitle>
+                <div className="bg-white px-2 sm:px-4 md:px-6 mb-3 sm:mb-4 flex flex-col overflow-scroll">
+                    {children}
                 </div>
-                <div className="bg-gray-100 px-4 py-3 flex flex-row sm:px-6 justify-end items-center">
+                <div className="bg-gray-100 px-2 py-1 flex flex-row justify-end items-center">
                     <ButtonIcon
                         icon={<ConfirmIcon className={'text-green'} />}
                         onClick={onAgree}

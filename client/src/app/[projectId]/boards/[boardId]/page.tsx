@@ -15,7 +15,17 @@ export default async function BoardPage({ params }: {
     include: {
       lists: {
         include: {
-          tasks: true
+          tasks: {
+            include: {
+              assigned: {
+                select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                }
+              }
+            }
+          }
         }
       }
     }
