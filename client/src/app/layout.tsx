@@ -35,7 +35,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
               {children}
               <ToastContainer
                 position="bottom-left"
-                autoClose={3000}
+                autoClose={5000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick rtl={false}

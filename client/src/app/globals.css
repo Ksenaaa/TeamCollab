@@ -17,6 +17,7 @@
   --color-gray-100: #e3e3e3;
   --color-green: #73cd76;
   --color-red: #ec6060;
+  --color-orange: #ff9b54;
 
   --color-green-100: #d7ffd8;
   --color-green-800: #6d8e6e;
@@ -33,13 +34,13 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #ec6060;
+    --background: #ff9b54;
     /* --foreground: #ededed; */
   }
 }
 
 .heading-primary {
-  @apply text-4xl font-extrabold text-gray-800 mb-8;
+  @apply text-4xl font-extrabold text-gray-800;
 }
 
 .heading-secondary {
@@ -47,7 +48,7 @@
 }
 
 .text-description {
-  @apply text-lg text-gray-600 mb-8;
+  @apply text-lg text-gray-600;
 }
 
 body {

@@ -82,14 +82,14 @@ model Board {
   status    Status   @default(IN_PROGRESS)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  project   Project  @relation(fields: [projectId], references: [id])
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId String
 }
 
 model List {
   id        String   @id @default(uuid())
   name      String
-  board     Board    @relation(fields: [boardId], references: [id])
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
   boardId   String
   tasks     Task[]
   createdAt DateTime @default(now())
@@ -100,7 +100,7 @@ model Task {
   id          String    @id @default(uuid())
   name        String
   description String?
-  list        List      @relation(fields: [listId], references: [id])
+  list        List      @relation(fields: [listId], references: [id], onDelete: Cascade)
   listId      String
   assigned    User      @relation(fields: [assignedId], references: [id])
   assignedId  String
@@ -115,7 +115,7 @@ model Comment {
   id        String   @id @default(uuid())
   user      User     @relation(fields: [userId], references: [id])
   userId    String
-  task      Task     @relation(fields: [taskId], references: [id])
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
   taskId    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
