@@ -9,8 +9,8 @@ export default async function Main() {
 
   return (
     <div>
-      <h1 className="heading-primary">Welcome to Your Dashboard</h1>
-      <p className="text-description">Here is an overview of your active projects</p>
+      <h1 className="heading-primary mb-9">Welcome to Your Dashboard</h1>
+      <p className="text-description mb-6">Here is an overview of your active projects</p>
 
       <div className="flex justify-between items-center mb-6">
         <h2 className="heading-secondary">Your Projects</h2>

@@ -1,41 +1,46 @@
 'use server'
 
-import { Prisma } from '@/generated/prisma';
+import { Prisma, Project } from '@/generated/prisma';
+import { errorHandler } from '@/lib/errorHandlers';
 import prisma from '@/lib/prisma'
+import { ActionResult } from '@/models/actionResponse';
+import { RouterPath } from '@/utils/constants/routerPath';
 import { revalidatePath } from 'next/cache';
 
-export async function createProjectAction(data: Prisma.ProjectCreateInput) {
+export async function createProjectAction(data: Prisma.ProjectCreateInput): Promise<ActionResult<Project>> {
     try {
         const project = await prisma.project.create({ data });
-        revalidatePath('/');
-        return project;
+        revalidatePath(RouterPath.HOME);
+
+        return { success: true, data: project, message: 'Project created successfully', status: 201 };
     } catch (error) {
-        console.error("Error creating project:", error);
-        throw new Error("Failed to create project");
+        return errorHandler(error);
     }
 }
 
-export async function updateProjectAction(id: string, data: Prisma.ProjectUpdateInput) {
+export async function updateProjectAction(id: string, data: Prisma.ProjectUpdateInput): Promise<ActionResult<null>> {
     try {
-        const project = await prisma.project.update({
+        await prisma.project.update({
             where: { id },
             data,
         });
-        return project;
+        revalidatePath(`/${id}/boards`);
+
+        return { success: true, data: null, message: 'Project updated successfully', status: 204 };
     } catch (error) {
-        console.error("Error updating project:", error);
-        throw new Error("Failed to update project");
+        return errorHandler(error);
     }
 }
 
-export async function deleteProjectAction(id: string) {
+export async function deleteProjectAction(id: string): Promise<ActionResult<null>> {
     try {
         await prisma.project.delete({
             where: { id },
         });
-        return { success: true };
+        revalidatePath(RouterPath.HOME);
+
+        return { success: true, data: null, message: 'Project deleted successfully', status: 204 };
     } catch (error) {
-        console.error("Error deleting project:", error);
-        return { success: false, error: "Failed to delete project" };
+        return errorHandler(error);
     }
 }

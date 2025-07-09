@@ -3,21 +3,23 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ModalApp } from "@/components/modal/ModalApp";
 import { ProjectSchema, ProjectFormData } from "../constants/projectSchema";
-import { createProjectAction } from "@/actions/projectActions";
+import { updateProjectAction } from "@/actions/projectActions";
 import { FormInput } from "@/components/form/FormInput";
+import { Project } from "@/generated/prisma";
 import { toast } from "react-toastify";
 
-interface CreateNewProjectModalFormProps {
+interface UpdateProjectModalFormProps {
     isOpenModal: boolean;
     onCloseModal: () => void;
+    project: Project;
 }
 
-export const CreateNewProjectModalForm: React.FC<CreateNewProjectModalFormProps> = ({ isOpenModal, onCloseModal }) => {
+export const UpdateProjectModalForm: React.FC<UpdateProjectModalFormProps> = ({ isOpenModal, onCloseModal, project }) => {
     const [isPending, startTransition] = useTransition();
 
     const { handleSubmit, control, reset } = useForm<ProjectFormData>({
         resolver: zodResolver(ProjectSchema),
-        defaultValues: { name: '', description: '' }
+        defaultValues: { name: project.name, description: project.description }
     });
 
     const handleCloseModal = () => {
@@ -25,9 +27,9 @@ export const CreateNewProjectModalForm: React.FC<CreateNewProjectModalFormProps>
         reset();
     }
 
-    const handleCreateProject = handleSubmit((data: ProjectFormData) => {
+    const handleUpdateProject = handleSubmit((data: ProjectFormData) => {
         startTransition(async () => {
-            const result = await createProjectAction(data);
+            const result = await updateProjectAction(project.id, data)
 
             if (result.success) {
                 toast.success(result.message);
@@ -35,8 +37,7 @@ export const CreateNewProjectModalForm: React.FC<CreateNewProjectModalFormProps>
                 return
             }
 
-            toast.error(`Error creating project: ${result.error || 'Unknown error'}`);
-
+            toast.error(`Error updating project: ${result.error || 'Unknown error'}`);
         });
     })
 
@@ -44,8 +45,8 @@ export const CreateNewProjectModalForm: React.FC<CreateNewProjectModalFormProps>
         <ModalApp
             isOpen={isOpenModal}
             onClose={handleCloseModal}
-            header="Create New Project"
-            onAgree={handleCreateProject}
+            header="Update Project"
+            onAgree={handleUpdateProject}
             isPending={isPending}
         >
             <div className="w-100 max-w-full flex flex-col gap-4">

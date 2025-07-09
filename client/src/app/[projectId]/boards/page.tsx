@@ -4,6 +4,8 @@ import prisma from "@/lib/prisma";
 import { Loading } from "@/components/loading/Loading";
 import { BoardCard } from "@/components/boardTools/boardCard/BoardCard";
 import { CreateNewBoard } from "@/components/boardTools/createNewBoard/CreateNewBoard";
+import { DeleteProject } from "@/components/projectTools/deleteProject/DeleteProject";
+import { UpdateProject } from "@/components/projectTools/updateProject/UpdateProject";
 
 export default async function BoardsPage({ params }: {
   params: Promise<{ projectId: string }>
@@ -19,10 +21,16 @@ export default async function BoardsPage({ params }: {
 
   return (
     <div>
-      <div className="flex justify-between items-start">
-        <h1 className="heading-primary">{project.name}</h1>
+      <div className="flex justify-between items-center mb-6">
+        <div className="flex gap-6 items-center">
+          <h1 className="heading-primary mr:2">{project.name}</h1>
+          <UpdateProject project={project} />
+          <DeleteProject projectId={projectId} />
+        </div>
         <StatusElement status={project.status} />
       </div>
+
+      <p className="text-description mb-4">{project.description}</p>
 
       <div className="flex justify-between items-center mb-6">
         <h2 className="heading-secondary">All Boards:</h2>
