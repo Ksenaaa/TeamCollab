@@ -1,7 +1,7 @@
-import { ActionResponseData } from "@/models/actionResponse";
+import { ActionResult } from "@/models/actionResponse";
 import { useEffect, useState, useTransition, useRef } from "react";
 
-export function useAsyncData<T,>(action?: () => Promise<ActionResponseData<T[]>>) {
+export function useAsyncData<T,>(action?: () => Promise<ActionResult<T[]>>) {
     const [data, setData] = useState<T[]>([]);
     const [isPending, startTransition] = useTransition();
 
