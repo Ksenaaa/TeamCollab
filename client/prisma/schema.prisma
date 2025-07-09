@@ -117,6 +117,7 @@ model Comment {
   userId    String
   task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
   taskId    String
+  text      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

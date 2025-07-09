@@ -23,6 +23,17 @@ export default async function BoardPage({ params }: {
                   name: true,
                   email: true,
                 }
+              },
+              comment: {
+                include: {
+                  user: {
+                    select: {
+                      id: true,
+                      name: true,
+                      email: true,
+                    }
+                  }
+                }
               }
             }
           }
