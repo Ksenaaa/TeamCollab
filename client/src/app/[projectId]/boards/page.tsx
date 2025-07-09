@@ -23,7 +23,7 @@ export default async function BoardsPage({ params }: {
     <div>
       <div className="flex justify-between items-center mb-6">
         <div className="flex gap-6 items-center">
-          <h1 className="heading-primary mr:2">{project.name}</h1>
+          <h1 className="heading-primary mr-2">Project: {project.name}</h1>
           <UpdateProject project={project} />
           <DeleteProject projectId={projectId} />
         </div>

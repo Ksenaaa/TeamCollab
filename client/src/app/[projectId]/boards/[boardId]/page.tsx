@@ -3,6 +3,8 @@ import { BoardComponent } from "@/components/boardTools/BoardComponent"
 import { Loading } from "@/components/loading/Loading"
 import prisma from "@/lib/prisma"
 import { StatusElement } from "@/components/statusElement/StatusElement"
+import { DeleteBoard } from "@/components/boardTools/deleteBoard/DeleteBoard"
+import { UpdateBoard } from "@/components/boardTools/updateBoard/UpdateBoard"
 
 export default async function BoardPage({ params }: {
   params: Promise<{ boardId: string }>
@@ -23,8 +25,12 @@ export default async function BoardPage({ params }: {
 
   return (
     <div className="w=full h-full">
-      <div className="flex justify-between items-start">
-        <h1 className="heading-primary">{board.name}</h1>
+      <div className="flex justify-between items-center mb-6">
+        <div className="flex gap-6 items-center">
+          <h1 className="heading-primary mr-2">{board.name}</h1>
+          <UpdateBoard board={board} />
+          <DeleteBoard board={board} />
+        </div>
         <StatusElement status={board.status} />
       </div>
 

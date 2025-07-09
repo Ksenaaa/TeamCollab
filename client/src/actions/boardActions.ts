@@ -1,42 +1,44 @@
 'use server'
 
-import { Prisma } from '@/generated/prisma';
+import { Board, Prisma } from '@/generated/prisma';
+import { errorHandler } from '@/lib/errorHandlers';
 import prisma from '@/lib/prisma'
+import { ActionResult } from '@/models/actionResponse';
 import { revalidatePath } from 'next/cache';
 
-export async function createBoardAction(data: Prisma.BoardCreateInput) {
+export async function createBoardAction(data: Prisma.BoardCreateInput): Promise<ActionResult<Board>> {
     try {
         const board = await prisma.board.create({ data });
         revalidatePath(`/${data.project.connect?.id}/boards`);
 
-        return board;
+        return { success: true, data: board, message: 'Board created successfully', status: 201 };
     } catch (error) {
-        console.error("Error creating board:", error);
-        throw new Error("Failed to create board");
+        return errorHandler(error);
     }
 }
 
-export async function updateBoardAction(id: string, data: Prisma.BoardUpdateInput) {
+export async function updateBoardAction(id: string, data: Prisma.BoardUpdateInput): Promise<ActionResult<null>> {
     try {
-        const board = await prisma.board.update({
+        await prisma.board.update({
             where: { id },
             data,
         });
-        return board;
+        revalidatePath(`/${data.project?.connect?.id}/boards/${id}`);
+
+        return { success: true, data: null, message: 'Board updated successfully', status: 204 };
     } catch (error) {
-        console.error("Error updating board:", error);
-        throw new Error("Failed to update board");
+        return errorHandler(error);
     }
 }
 
-export async function deleteBoardAction(id: string) {
+export async function deleteBoardAction(id: string): Promise<ActionResult<null>> {
     try {
         await prisma.board.delete({
             where: { id },
         });
-        return { success: true };
+
+        return { success: true, data: null, message: 'Board deleted successfully', status: 204 };
     } catch (error) {
-        console.error("Error deleting board:", error);
-        return { success: false, error: "Failed to delete board" };
+        return errorHandler(error);
     }
 }
