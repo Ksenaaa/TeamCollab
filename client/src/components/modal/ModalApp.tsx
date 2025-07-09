@@ -3,7 +3,6 @@ import ConfirmIcon from "@/assets/icons/check-icon.svg";
 import RejectIcon from "@/assets/icons/cross-icon.svg";
 import { ModalWrapper } from "./ModalWrapper";
 import { ButtonIcon } from "../button/ButtonIcon";
-import { LoadingIcon } from "../loading/Loading";
 
 interface ModalAppProps {
     isOpen: boolean;
@@ -38,13 +37,11 @@ export const ModalApp = ({
                     </div>
                 </div>
                 <div className="bg-gray-100 px-4 py-3 flex flex-row sm:px-6 justify-end items-center">
-                    {isPending
-                        ? <LoadingIcon className={'w-[32px] h-[32px]'} />
-                        : <ButtonIcon
-                            icon={<ConfirmIcon className={'text-green'} />}
-                            onClick={onAgree}
-                        />
-                    }
+                    <ButtonIcon
+                        icon={<ConfirmIcon className={'text-green'} />}
+                        onClick={onAgree}
+                        isLoading={isPending}
+                    />
 
                     <ButtonIcon
                         icon={<RejectIcon className={'text-red'} />}

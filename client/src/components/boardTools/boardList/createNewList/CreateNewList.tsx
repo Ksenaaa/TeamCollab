@@ -1,5 +1,3 @@
-'use client'
-
 import { Button } from "@/components/button/Button";
 import { useToggle } from "@/utils/hooks/useToggle";
 import { Board } from "@/generated/prisma";

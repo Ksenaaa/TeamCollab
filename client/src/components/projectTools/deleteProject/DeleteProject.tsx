@@ -37,7 +37,7 @@ export const DeleteProject: React.FC<DeleteProjectProps> = ({ projectId }) => {
 
     return (
         <>
-            <ButtonIcon className='span:w-6 span:h-6' icon={<DeleteIcon className='text-red' />} onClick={onToggle} isLoading={isPending} />
+            <ButtonIcon icon={<DeleteIcon className='text-red' />} onClick={onToggle} isLoading={isPending} />
             {isOpen &&
                 <ModalApp
                     isOpen={isOpen}

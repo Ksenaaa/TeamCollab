@@ -15,7 +15,7 @@ export const UpdateBoard: React.FC<UpdateBoardProps> = ({ board }) => {
 
     return (
         <>
-            <ButtonIcon className='span:w-6 span:h-6' icon={<UpdateIcon className='text-orange' />} onClick={onToggle} />
+            <ButtonIcon icon={<UpdateIcon className='text-orange' />} onClick={onToggle} />
             {isOpen &&
                 <UpdateBoardModalForm
                     isOpenModal={isOpen}

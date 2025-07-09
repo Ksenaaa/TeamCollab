@@ -37,7 +37,7 @@ export const DeleteBoard: React.FC<DeleteBoardProps> = ({ board }) => {
 
     return (
         <>
-            <ButtonIcon className='span:w-6 span:h-6' icon={<DeleteIcon className='text-red' />} onClick={onToggle} isLoading={isPending} />
+            <ButtonIcon icon={<DeleteIcon className='text-red' />} onClick={onToggle} isLoading={isPending} />
             {isOpen &&
                 <ModalApp
                     isOpen={isOpen}

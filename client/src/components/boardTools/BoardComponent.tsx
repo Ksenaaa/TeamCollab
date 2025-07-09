@@ -1,7 +1,9 @@
+'use client'
+
 import { Board, List, Task } from "@/generated/prisma";
 import { BoardList } from "./boardList/BoardList";
 import { CreateNewTask } from "./createNewTask/CreateNewTask";
-import { CreateNewList } from "./createNewList/CreateNewList";
+import { CreateNewList } from "./boardList/createNewList/CreateNewList";
 
 interface BoardProps {
     board: Board & {

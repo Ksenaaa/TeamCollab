@@ -1,17 +1,18 @@
-import { LoadingIcon } from "../loading/Loading";
+import { CSSProperties } from "react";
+import { LoadingIcon } from "@/components/loading/Loading";
 
 interface ButtonIconProps {
     icon: React.ReactNode;
     onClick: () => void;
-    className?: string;
     disabled?: boolean;
     isLoading?: boolean;
+    styles?: CSSProperties
 }
 
 export const ButtonIcon = ({
     icon,
     onClick,
-    className = "",
+    styles,
     disabled = false,
     isLoading
 }: ButtonIconProps) => {
@@ -21,14 +22,15 @@ export const ButtonIcon = ({
             type="button"
             onClick={onClick}
             disabled={disabled || isLoading}
-            className={`flex items-center justify-center p-2 rounded-full transition-all duration-200
+            className={`w-[40px] h-[40px] flex items-center justify-center p-2 rounded-full transition-all duration-200
                 ${disabled || isLoading
                     ? "cursor-auto"
                     : `cursor-pointer hover:brightness-110 hover:scale-120`
                 }
-                ${className}`}
+            `}
+            style={styles}
         >
-            <span className='relative w-[36px] h-[36px]'>
+            <span className='relative w-full h-full'>
                 {isLoading
                     ? <LoadingIcon className='absolute top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%]' />
                     : icon
