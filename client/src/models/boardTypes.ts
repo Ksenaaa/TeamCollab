@@ -1,4 +1,4 @@
-import { Board, List, Task } from "@/generated/prisma"
+import { Board, Comment, List, Task } from "@/generated/prisma"
 
 export type BoardDataType = Board & {
     lists: ListWithTaskType[]
@@ -9,5 +9,8 @@ export type ListWithTaskType = List & {
 }
 
 export type TaskWithAssignedType = Task & {
-    assigned: { id: string, name: string, email: string }
+    assigned: { id: string, name: string, email: string },
+    comment: CommentWithUserType[]
 }
+
+export type CommentWithUserType = Comment & { user: { id: string, name: string, email: string } }

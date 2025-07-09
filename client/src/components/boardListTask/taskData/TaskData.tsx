@@ -1,4 +1,3 @@
-import { Button } from "@/components/button/Button"
 import { TaskWithAssignedType } from "@/models/boardTypes"
 import { DeleteTask } from "../deleteTask/DeleteTask"
 import { UpdateTask } from "../updateTask/UpdateTask"
@@ -6,6 +5,7 @@ import { StatusElement } from "@/components/statusElement/StatusElement"
 import { TaskDataElement } from "./TaskDataElement"
 import { formatDate } from "@/utils/helpers/formatDate"
 import { formatDateWithTime } from "@/utils/helpers/formatDateWithTime"
+import { Comment } from "@/components/boardListTaskComment/Comment"
 
 interface TaskDataProps {
     task: TaskWithAssignedType
@@ -13,8 +13,8 @@ interface TaskDataProps {
 
 export const TaskData: React.FC<TaskDataProps> = ({ task }) => {
     return (
-        <div className='w-120 max-w-full'>
-            <div className="grid grid-cols-4 gap-1 md:gap-4 text-sm text-gray-800">
+        <div className='w-160 max-w-full'>
+            <div className="grid grid-cols-4 gap-1 md:gap-2 text-sm text-gray-800">
                 <div className="col-span-4 sm:col-span-2">
                     <TaskDataElement title='Created'>
                         {formatDateWithTime(task.createdAt)}
@@ -27,7 +27,9 @@ export const TaskData: React.FC<TaskDataProps> = ({ task }) => {
                 </div>
 
                 <div className="col-span-4">
-                    <TaskDataElement title='Description'>{task.description}</TaskDataElement>
+                    <TaskDataElement title='Description'>
+                        <p className="text-xs">{task.description}</p>
+                    </TaskDataElement>
                 </div>
 
                 <div className="col-span-4 sm:col-span-2">
@@ -49,15 +51,13 @@ export const TaskData: React.FC<TaskDataProps> = ({ task }) => {
 
                 <div className="col-span-4">
                     <TaskDataElement title='Comments'>
-                        <div className="mt-6 flex justify-end">
-                            <Button title="Add Comment" />
-                        </div>
+                        <Comment task={task} />
                     </TaskDataElement>
                 </div>
 
                 <div className="col-span-4">
                     <TaskDataElement title='Task Settings'>
-                        <div className="mt-6 flex justify-end">
+                        <div className="flex justify-end">
                             <UpdateTask task={task} />
                             <DeleteTask task={task} />
                         </div>
