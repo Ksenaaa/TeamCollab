@@ -3,9 +3,10 @@ import { ModalApp } from "@/components/modal/ModalApp";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { ListFormData, ListSchema } from "./constants/listSchema";
+import { ListFormData, ListSchema } from "../constants/listSchema";
 import { Board } from "@/generated/prisma";
 import { FormInput } from "@/components/form/FormInput";
+import { toast } from "react-toastify";
 
 interface CreateNewListModalFormProps {
     board: Board,
@@ -28,8 +29,15 @@ export const CreateNewListModalForm: React.FC<CreateNewListModalFormProps> = ({ 
 
     const handleCreateList = handleSubmit((data: ListFormData) => {
         startTransition(async () => {
-            await createListAction({ ...data, board: { connect: { id: board.id, projectId: board.projectId } } });
-            handleCloseModal();
+            const result = await createListAction({ ...data, board: { connect: { id: board.id, projectId: board.projectId } } });
+
+            if (result.success) {
+                toast.success(result.message);
+                handleCloseModal();
+                return
+            }
+
+            toast.error(`Error creating list: ${result.error || 'Unknown error'}`);
         });
     })
 

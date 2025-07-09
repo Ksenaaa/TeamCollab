@@ -47,6 +47,7 @@ export const ComboboxCustom = <T,>({
                                 onChange={(event) => setQuery(event.target.value)}
                                 aria-invalid={!!errorText}
                                 aria-describedby={errorText ? `${name}-error` : undefined}
+                                autoComplete="off"
                             />
                             {isPending
                                 ? <LoadingIcon className='h-3 w-3 absolute top-[50%] right-3 translate-y-[-50%]' />
