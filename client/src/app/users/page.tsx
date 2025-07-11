@@ -9,8 +9,8 @@ export default async function UsersPage() {
 
   return (
     <div className="flex flex-col h-full">
-      <h1 className="heading-primary">Users</h1>
-      <p className="text-description">Manage all users</p>
+      <h1 className="heading-primary mb-6">Users</h1>
+      <p className="text-description mb-4">Manage all users</p>
 
       <div className="flex justify-between items-center mb-6">
         <h2 className="heading-secondary">All users</h2>

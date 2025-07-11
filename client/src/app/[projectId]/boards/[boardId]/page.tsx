@@ -1,4 +1,5 @@
 import { Suspense } from "react"
+import { notFound } from 'next/navigation';
 import { BoardComponent } from "@/components/boardTools/BoardComponent"
 import { Loading } from "@/components/loading/Loading"
 import prisma from "@/lib/prisma"
@@ -14,24 +15,19 @@ export default async function BoardPage({ params }: {
     where: { id: boardId },
     include: {
       lists: {
+        orderBy: { order: 'asc' },
         include: {
           tasks: {
+            orderBy: { order: 'asc' },
             include: {
               assigned: {
-                select: {
-                  id: true,
-                  name: true,
-                  email: true,
-                }
+                select: { id: true, name: true, email: true }
               },
-              comment: {
+              comments: {
+                orderBy: { createdAt: 'asc' },
                 include: {
                   user: {
-                    select: {
-                      id: true,
-                      name: true,
-                      email: true,
-                    }
+                    select: { id: true, name: true, email: true }
                   }
                 }
               }
@@ -42,7 +38,7 @@ export default async function BoardPage({ params }: {
     }
   })
 
-  if (!board) return <div>No Data</div>
+  if (!board) return notFound()
 
   return (
     <div className="w=full h-full">

@@ -1,5 +1,14 @@
 import { DefaultSession, DefaultUser } from "next-auth";
 import { JWT as DefaultJWT } from "next-auth/jwt";
+import { NextAuthRequest } from 'next-auth/lib';
+import { NextRequest } from 'next/server';
+
+// Extend the built-in NextRequest type
+declare module 'next/server' {
+    interface NextRequestAuth extends NextRequest {
+        auth?: NextAuthRequest['auth'];
+    }
+}
 
 // Extend the built-in NextAuth JWT type
 declare module "next-auth/jwt" {
@@ -23,3 +32,4 @@ declare module "next-auth" {
         role: string;
     }
 }
+

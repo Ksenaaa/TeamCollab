@@ -15,7 +15,7 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = memo(({ projects }) => {
-    const { data: session, status } = useSession();
+    const { data: session } = useSession();
 
     const pathname = usePathname()
     const params = useParams()
@@ -37,7 +37,7 @@ export const Sidebar: React.FC<SidebarProps> = memo(({ projects }) => {
                     <>
                         <div className="flex flex-col">
                             <p className="text-md font-semibold">{session.user?.name}</p>
-                            <p className="text-sm text-gray-400">{session.user?.email}</p>
+                            <p className="text-sm text-gray-600">{session.user?.email}</p>
                             <p className="text-sm font-semibold text-gray-600">{`(Role: ${session.user?.role})`}</p>
                         </div>
                         <SignOutUser />
