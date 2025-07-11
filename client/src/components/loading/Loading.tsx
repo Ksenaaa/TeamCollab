@@ -2,7 +2,7 @@ export const Loading: React.FC = () => {
     return (
         <div className="flex flex-col items-center justify-center py-10 animate-pulse space-y-4">
             <LoadingIcon />
-            <p className="text-gray-400 text-lg">Loading feed...</p>
+            <p className="text-gray-600 text-lg">Loading feed...</p>
         </div>
     );
 };

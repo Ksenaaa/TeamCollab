@@ -51,7 +51,7 @@ export const ComboboxCustom = <T,>({
                             />
                             {isPending
                                 ? <LoadingIcon className='h-3 w-3 absolute top-[50%] right-3 translate-y-[-50%]' />
-                                : <ChevronUpDownIcon className={`h-3 w-3 text-gray-400 absolute top-[50%] right-3 translate-y-[-50%] transition-transform ${open ? 'rotate-180' : ''}`} aria-hidden="true" />
+                                : <ChevronUpDownIcon className={`h-3 w-3 text-gray-600 absolute top-[50%] right-3 translate-y-[-50%] transition-transform ${open ? 'rotate-180' : ''}`} aria-hidden="true" />
                             }
                         </ComboboxButton>
                         <ComboboxOptions

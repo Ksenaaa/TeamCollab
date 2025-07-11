@@ -26,7 +26,7 @@ export const UserItem: React.FC<MemberItemProps> = ({ user }) => {
                     </div>
                     <div>
                         <p className="text-lg font-semibold text-gray-800">{user.name}</p>
-                        <p className="text-gray-400 text-xs">{user.email}</p>
+                        <p className="text-gray-600 text-xs">{user.email}</p>
                     </div>
                 </div>
             </div>

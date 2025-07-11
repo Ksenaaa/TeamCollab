@@ -10,7 +10,7 @@ export type ListWithTaskType = List & {
 
 export type TaskWithAssignedType = Task & {
     assigned: { id: string, name: string, email: string },
-    comment: CommentWithUserType[]
+    comments: CommentWithUserType[]
 }
 
 export type CommentWithUserType = Comment & { user: { id: string, name: string, email: string } }
