@@ -5,6 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import prisma from "@/lib/prisma";
+import { Role } from "@/generated/prisma";
 
 export const authConfig: AuthOptions = {
     adapter: PrismaAdapter(prisma),
@@ -35,8 +36,16 @@ export const authConfig: AuthOptions = {
             },
         }),
         GoogleProvider({
-            clientId: process.env.GOOGLE_ID!,
-            clientSecret: process.env.GOOGLE_SECRET!,
+            clientId: process.env.GOOGLE_CLIENT_ID!,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+            profile(profile) {
+                return {
+                    id: profile.sub,
+                    name: profile.name,
+                    email: profile.email,
+                    role: Role.EDITOR_LIST,
+                }
+            },
         }),
         GitHubProvider({
             clientId: process.env.GITHUB_ID!,
@@ -68,9 +77,7 @@ export const authConfig: AuthOptions = {
         },
     },
     pages: {
-        signIn: '/auth/login',
-        signOut: '/auth/signout',
-        newUser: '/auth/register',
+        signIn: '/auth/signin',
         error: '/auth/error',
         verifyRequest: '/auth/verify-request',
     },

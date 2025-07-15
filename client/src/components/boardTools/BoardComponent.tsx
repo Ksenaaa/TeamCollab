@@ -40,7 +40,7 @@ export const BoardComponent: React.FC<BoardProps> = ({ board }) => {
                     boardId: board.id, newLists: updatedListsWithOrder
                 });
 
-                if (!actionResult.success) {
+                if (!actionResult?.success) {
                     toast.error(actionResult.error || "Failed to reorder lists");
                     setBoard(board);
                 }
@@ -77,7 +77,7 @@ export const BoardComponent: React.FC<BoardProps> = ({ board }) => {
                         listId: sourceListId, newTasks: updatedTasksWithOrder
                     });
 
-                    if (!actionResult.success) {
+                    if (!actionResult?.success) {
                         toast.error(actionResult.error || "Failed to reorder tasks");
                         setBoard(board);
                     }
@@ -111,7 +111,7 @@ export const BoardComponent: React.FC<BoardProps> = ({ board }) => {
                         newDestinationListTasks
                     });
 
-                    if (!actionResult.success) {
+                    if (!actionResult?.success) {
                         toast.error(actionResult.error || "Failed to reorder tasks");
                         setBoard(board);
                     }

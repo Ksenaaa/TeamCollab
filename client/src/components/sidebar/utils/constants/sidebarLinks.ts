@@ -5,9 +5,9 @@ import { RouterPath } from '@/utils/constants/routerPath'
 
 export const mainLinks = [
     {
-        label: 'Home',
+        label: 'Projects',
         icon: HomeIcon,
-        href: RouterPath.HOME,
+        href: RouterPath.PROJECTS,
     },
     {
         label: 'Users',

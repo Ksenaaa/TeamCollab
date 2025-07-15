@@ -27,7 +27,7 @@ export const DeleteProject: React.FC<DeleteProjectProps> = ({ projectId }) => {
                 toast.success(result.message);
                 onToggle();
 
-                router.push(RouterPath.HOME)
+                router.push(`/${RouterPath.PROJECTS}`)
                 return
             }
 

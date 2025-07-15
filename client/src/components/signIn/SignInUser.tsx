@@ -1,21 +1,16 @@
 'use client'
 
 import { Button } from "@/components/button/Button";
-import { useToggle } from "@/utils/hooks/useToggle";
-import { SignInModal } from "./SignInModal";
+import { useRouter } from "next/navigation";
 
 export const SignInUser: React.FC = () => {
-    const { isOpen, onToggle } = useToggle();
+    const router = useRouter();
+
+    const handleSignInUser = () => {
+        router.push('/auth/signin');
+    }
 
     return (
-        <>
-            <Button onClick={onToggle} title="Sign In" />
-            {isOpen &&
-                <SignInModal
-                    isOpenModal={isOpen}
-                    onCloseModal={onToggle}
-                />
-            }
-        </>
+        <Button onClick={handleSignInUser} title="Sign In" />
     )
 }
