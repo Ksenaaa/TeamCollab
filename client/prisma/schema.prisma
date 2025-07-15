@@ -16,10 +16,10 @@ datasource db {
 
 model User {
   id            String    @id @default(uuid())
-  name          String    @unique
+  name          String
   email         String    @unique
   emailVerified DateTime?
-  password      String
+  password      String?   @db.Text
   accounts      Account[]
   sessions      Session[]
   role          Role      @default(VIEWER)
@@ -35,17 +35,17 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?
-  access_token      String?
+  refresh_token     String?  @db.Text
+  access_token      String?  @db.Text
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?
+  id_token          String?  @db.Text
   session_state     String?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
-  @@id([provider, providerAccountId])
+  @@unique([provider, providerAccountId])
 }
 
 model Session {
@@ -59,10 +59,10 @@ model Session {
 
 model VerificationToken {
   identifier String
-  token      String
+  token      String   @unique
   expires    DateTime
 
-  @@id([identifier, token])
+  @@unique([identifier, token])
 }
 
 model Project {

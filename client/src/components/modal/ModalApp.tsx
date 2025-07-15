@@ -9,7 +9,7 @@ interface ModalAppProps {
     header: string;
     children: React.ReactNode;
     isPending?: boolean;
-    onAgree: () => void;
+    onAgree?: () => void;
     onClose: () => void;
 }
 
@@ -34,11 +34,13 @@ export const ModalApp = ({
                     {children}
                 </div>
                 <div className="bg-gray-100 px-2 py-1 flex flex-row justify-end items-center">
-                    <ButtonIcon
-                        icon={<ConfirmIcon className={'text-green'} />}
-                        onClick={onAgree}
-                        isLoading={isPending}
-                    />
+                    {onAgree &&
+                        <ButtonIcon
+                            icon={<ConfirmIcon className={'text-green'} />}
+                            onClick={onAgree}
+                            isLoading={isPending}
+                        />
+                    }
 
                     <ButtonIcon
                         icon={<RejectIcon className={'text-red'} />}
