@@ -22,7 +22,8 @@ export const authConfig: AuthOptions = {
                 const user = await prisma.user.findUnique({
                     where: { email: credentials.email },
                 });
-                if (!user || !user.password) throw new Error("User is not exist");
+                if (!user) throw new Error("User is not exist");
+                if (!user.password) throw new Error("User's already created with social account");
 
                 const isValid = await compare(credentials.password, user.password);
                 if (!isValid) throw new Error("Password is not valid");
@@ -65,6 +66,45 @@ export const authConfig: AuthOptions = {
         maxAge: 30 * 24 * 60 * 60, // 30 days
     },
     callbacks: {
+        async signIn({ user, account }) {
+            if (!account?.provider || !account?.providerAccountId) return true;
+
+            const existingAccount = await prisma.account.findFirst({
+                where: {
+                    provider: account.provider,
+                    providerAccountId: account.providerAccountId,
+                },
+            });
+
+            if (existingAccount) {
+                return true;
+            }
+
+            if (user.email) {
+                const existingUser = await prisma.user.findUnique({
+                    where: { email: user.email },
+                });
+
+                if (existingUser) {
+                    await prisma.account.create({
+                        data: {
+                            userId: existingUser.id,
+                            type: account.type,
+                            provider: account.provider,
+                            providerAccountId: account.providerAccountId,
+                            access_token: account.access_token,
+                            token_type: account.token_type,
+                            expires_at: account.expires_at,
+                            scope: account.scope,
+                            id_token: account.id_token,
+                        },
+                    });
+                    return true;
+                }
+            }
+
+            return true;
+        },
         async jwt({ token, user }) {
             if (user) {
                 token.id = user.id;
