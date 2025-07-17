@@ -1,25 +1,23 @@
+import { ComponentType, SVGProps } from 'react'
 import HomeIcon from '@/assets/icons/home-icon.svg'
 import BoardsIcon from '@/assets/icons/board-icon.svg'
 import UsersIcon from '@/assets/icons/users-icon.svg'
 import { RouterPath } from '@/utils/constants/routerPath'
 
-export const mainLinks = [
-    {
+export const sidebarLinks: Partial<Record<RouterPath, { id: RouterPath, label: string, icon: ComponentType<SVGProps<SVGSVGElement>> }>> = {
+    [RouterPath.PROJECTS]: {
+        id: RouterPath.PROJECTS,
         label: 'Projects',
         icon: HomeIcon,
-        href: RouterPath.PROJECTS,
     },
-    {
-        label: 'Users',
-        icon: UsersIcon,
-        href: RouterPath.USERS,
-    },
-]
-
-export const projectLinks = [
-    {
+    [RouterPath.BOARDS]: {
+        id: RouterPath.BOARDS,
         label: 'Boards',
         icon: BoardsIcon,
-        href: RouterPath.BOARDS,
     },
-]
+    [RouterPath.USERS]: {
+        id: RouterPath.USERS,
+        label: 'Users',
+        icon: UsersIcon,
+    },
+}

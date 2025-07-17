@@ -17,7 +17,7 @@ export function useAsyncData<T,>(action?: () => Promise<ActionResult<T[]>>) {
         startTransition(() => {
             action()
                 .then((result) => {
-                    if (mountedRef.current && result.success) setData(result.data);
+                    if (mountedRef.current && result?.success) setData(result.data);
                 })
                 .catch((error) => {
                     console.error('Failed to fetch options:', error.message);

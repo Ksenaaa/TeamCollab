@@ -23,7 +23,7 @@ export const DeleteProject: React.FC<DeleteProjectProps> = ({ projectId }) => {
         startTransition(async () => {
             const result = await deleteProjectAction(projectId)
 
-            if (result.success) {
+            if (result?.success) {
                 toast.success(result.message);
                 onToggle();
 
@@ -31,7 +31,7 @@ export const DeleteProject: React.FC<DeleteProjectProps> = ({ projectId }) => {
                 return
             }
 
-            toast.error(`Error deleting project: ${result.error || 'Unknown error'}`);
+            toast.error('Error deleting project');
         })
     }
 

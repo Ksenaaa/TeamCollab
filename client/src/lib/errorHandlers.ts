@@ -14,6 +14,10 @@ export function errorHandler(error: unknown): ActionError {
                 status = 409;
                 details = { [fields]: [message] };
                 break;
+            case 'P2003':
+                message = 'Foreign key constraint failed';
+                status = 400;
+                break;
             case 'P2025':
                 message = 'Record not found';
                 status = 404;

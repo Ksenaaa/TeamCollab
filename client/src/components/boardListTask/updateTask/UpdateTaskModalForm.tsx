@@ -45,13 +45,13 @@ export const UpdateTaskModalForm: React.FC<UpdateTaskModalFormProps> = ({ isOpen
                 assigned: { connect: { id: data.assigned?.id } },
             })
 
-            if (result.success) {
+            if (result?.success) {
                 toast.success(result.message);
                 handleCloseModal();
                 return
             }
 
-            toast.error(`Error updating task: ${result.error || 'Unknown error'}`);
+            toast.error('Error updating task');
         });
     })
 

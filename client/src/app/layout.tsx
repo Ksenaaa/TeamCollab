@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   description: "Dashboard for your projects",
 };
 
-export default async function RootLayout({ children, authModal }: Readonly<{ children: React.ReactNode, authModal: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const projects = await prisma.project.findMany();
 
   return (
@@ -33,7 +33,6 @@ export default async function RootLayout({ children, authModal }: Readonly<{ chi
             <Sidebar projects={projects} />
             <main className="flex-1 p-2 md:p-8 overflow-auto">
               {children}
-              {authModal}
               <ToastContainer
                 position="bottom-left"
                 autoClose={5000}

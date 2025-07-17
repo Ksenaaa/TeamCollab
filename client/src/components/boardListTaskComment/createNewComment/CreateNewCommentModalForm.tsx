@@ -38,13 +38,13 @@ export const CreateNewCommentModalForm: React.FC<CreateNewCommentModalFormProps>
                 user: { connect: { id: session?.user.id } }
             });
 
-            if (result.success) {
+            if (result?.success) {
                 toast.success(result.message);
                 handleCloseModal();
                 return
             }
 
-            toast.error(`Error creating comment: ${result.error || 'Unknown error'}`);
+            toast.error('Error creating comment');
         });
     })
 

@@ -43,13 +43,13 @@ export const CreateNewTaskModalForm: React.FC<CreateNewTaskModalFormProps> = ({ 
                 },
             })
 
-            if (result.success) {
+            if (result?.success) {
                 toast.success(result.message);
                 handleCloseModal();
                 return
             }
 
-            toast.error(`Error creating task: ${result.error || 'Unknown error'}`);
+            toast.error('Error creating task');
         });
     })
 

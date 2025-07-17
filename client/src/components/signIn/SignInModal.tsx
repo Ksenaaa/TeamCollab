@@ -1,6 +1,6 @@
 'use client'
 
-import { memo, useEffect, useState, useTransition } from "react";
+import { memo, useState, useTransition } from "react";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import GitHubIcon from "@/assets/icons/github-icon.svg";
 import GoogleIcon from "@/assets/icons/google-icon.svg";
 import { UserSignInFormData, UserSignInSchema } from "./constants/userSignInSchema";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { RouterPath } from "@/utils/constants/routerPath";
 import { Button } from "@/components/button/Button";
 import { AuthProviders } from "@/utils/constants/authProvider";
@@ -28,7 +28,6 @@ export const SignInModal: React.FC<SignInModalProps> = memo(({ }) => {
     const [currentAuthProvider, setCurrentAuthProvider] = useState<AuthProviders | null>(null);
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
-    const searchParams = useSearchParams();
 
     const { handleSubmit, control, reset } = useForm<UserSignInFormData>({
         defaultValues: { email: '', password: '' },
@@ -36,7 +35,7 @@ export const SignInModal: React.FC<SignInModalProps> = memo(({ }) => {
     });
 
     const handleCloseModal = () => {
-        router.back();
+        router.push('/');
         onCloseModal();
         reset();
     }
@@ -87,12 +86,6 @@ export const SignInModal: React.FC<SignInModalProps> = memo(({ }) => {
             }
         });
     };
-
-    useEffect(() => {
-        if (searchParams.has('callbackUrl')) {
-            router.replace('/auth/signin', undefined);
-        }
-    }, [router, searchParams]);
 
     return (
         <ModalApp

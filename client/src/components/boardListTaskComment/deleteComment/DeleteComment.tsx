@@ -19,13 +19,13 @@ export const DeleteComment: React.FC<DeleteCommentProps> = ({ comment }) => {
         startTransition(async () => {
             const result = await deleteCommentAction(comment.id)
 
-            if (result.success) {
+            if (result?.success) {
                 toast.success(result.message);
                 onToggle();
                 return
             }
 
-            toast.error(`Error deleting comment: ${result.error || 'Unknown error'}`);
+            toast.error('Error deleting comment');
         })
     }
 

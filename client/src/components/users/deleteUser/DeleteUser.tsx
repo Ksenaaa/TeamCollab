@@ -4,20 +4,20 @@ import { useToggle } from "@/utils/hooks/useToggle";
 import { ModalApp } from "@/components/modal/ModalApp";
 import { toast } from "react-toastify";
 import RejectIcon from "@/assets/icons/cross-icon.svg";
-import { TaskWithAssignedType } from "@/models/boardTypes";
-import { deleteTaskAction } from "@/actions/taskActions";
+import { UsersShort } from "@/models/userShort";
+import { deleteUserAction } from "@/actions/userActions";
 
-interface DeleteTaskProps {
-    task: TaskWithAssignedType
+interface DeleteUserProps {
+    user: UsersShort
 }
 
-export const DeleteTask: React.FC<DeleteTaskProps> = ({ task }) => {
+export const DeleteUser: React.FC<DeleteUserProps> = ({ user }) => {
     const { isOpen, onToggle } = useToggle()
     const [isPending, startTransition] = useTransition();
 
-    const handleDeleteTask = async () => {
+    const handleDeleteUser = async () => {
         startTransition(async () => {
-            const result = await deleteTaskAction(task.id)
+            const result = await deleteUserAction(user.id)
 
             if (result?.success) {
                 toast.success(result.message);
@@ -25,7 +25,7 @@ export const DeleteTask: React.FC<DeleteTaskProps> = ({ task }) => {
                 return
             }
 
-            toast.error('Error deleting task');
+            toast.error('Error deleting user');
         })
     }
 
@@ -41,12 +41,12 @@ export const DeleteTask: React.FC<DeleteTaskProps> = ({ task }) => {
                 <ModalApp
                     isOpen={isOpen}
                     onClose={onToggle}
-                    header="Delete Task"
-                    onAgree={handleDeleteTask}
+                    header="Delete User"
+                    onAgree={handleDeleteUser}
                     isPending={isPending}
                 >
                     <div className="w-100 max-w-full flex flex-col">
-                        <p>Are you sure you want to delete task: &apos;<strong>{task.name}</strong>&apos;?</p>
+                        <p>Are you sure you want to delete user?</p>
                     </div>
                 </ModalApp>
             }

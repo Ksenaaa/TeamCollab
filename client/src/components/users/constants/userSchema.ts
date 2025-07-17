@@ -9,7 +9,6 @@ export const UserSchema = z.object({
         id: z.enum([Role.ADMIN, Role.EDITOR_LIST, Role.VIEWER]),
         name: z.string()
     })
-        .nullable()
         .superRefine((value, ctx) => {
             if (!value) {
                 ctx.addIssue({
@@ -21,3 +20,22 @@ export const UserSchema = z.object({
 });
 
 export type UserFormData = z.infer<typeof UserSchema>;
+
+export const UserUpdateSchema = z.object({
+    name: z.string().min(1, { message: "Name is required" }),
+    email: z.string().min(1, { message: 'Email is required' }).email('It is not an email adress'),
+    role: z.object({
+        id: z.enum([Role.ADMIN, Role.EDITOR_LIST, Role.VIEWER]),
+        name: z.string()
+    })
+        .superRefine((value, ctx) => {
+            if (!value) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: "Role is required",
+                });
+            }
+        }),
+});
+
+export type UserUpdateFormData = z.infer<typeof UserUpdateSchema>;

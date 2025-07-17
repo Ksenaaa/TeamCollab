@@ -31,13 +31,13 @@ export const UpdateProjectModalForm: React.FC<UpdateProjectModalFormProps> = ({ 
         startTransition(async () => {
             const result = await updateProjectAction(project.id, data)
 
-            if (result.success) {
+            if (result?.success) {
                 toast.success(result.message);
                 handleCloseModal();
                 return
             }
 
-            toast.error(`Error updating project: ${result.error || 'Unknown error'}`);
+            toast.error('Error updating project');
         });
     })
 

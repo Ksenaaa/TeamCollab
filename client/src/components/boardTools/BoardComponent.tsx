@@ -40,11 +40,13 @@ export const BoardComponent: React.FC<BoardProps> = ({ board }) => {
                     boardId: board.id, newLists: updatedListsWithOrder
                 });
 
-                if (!actionResult?.success) {
-                    toast.error(actionResult.error || "Failed to reorder lists");
-                    setBoard(board);
+                if (actionResult?.success) {
+                    router.refresh()
+                    return
                 }
-                router.refresh()
+
+                toast.error('Failed to reorder lists');
+                setBoard(board);
             });
         }
 
@@ -77,11 +79,13 @@ export const BoardComponent: React.FC<BoardProps> = ({ board }) => {
                         listId: sourceListId, newTasks: updatedTasksWithOrder
                     });
 
-                    if (!actionResult?.success) {
-                        toast.error(actionResult.error || "Failed to reorder tasks");
-                        setBoard(board);
+                    if (actionResult?.success) {
+                        router.refresh()
+                        return
                     }
-                    router.refresh()
+
+                    toast.error('Failed to reorder tasks');
+                    setBoard(board);
                 });
             } else {
                 // Moving task to a different list
@@ -111,11 +115,13 @@ export const BoardComponent: React.FC<BoardProps> = ({ board }) => {
                         newDestinationListTasks
                     });
 
-                    if (!actionResult?.success) {
-                        toast.error(actionResult.error || "Failed to reorder tasks");
-                        setBoard(board);
+                    if (actionResult?.success) {
+                        router.refresh()
+                        return
                     }
-                    router.refresh()
+
+                    toast.error('Failed to reorder tasks');
+                    setBoard(board);
                 });
             }
         }
