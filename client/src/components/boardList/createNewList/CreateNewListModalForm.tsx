@@ -31,13 +31,13 @@ export const CreateNewListModalForm: React.FC<CreateNewListModalFormProps> = ({ 
         startTransition(async () => {
             const result = await createListAction({ ...data, board: { connect: { id: board.id, projectId: board.projectId } } });
 
-            if (result.success) {
+            if (result?.success) {
                 toast.success(result.message);
                 handleCloseModal();
                 return
             }
 
-            toast.error(`Error creating list: ${result.error || 'Unknown error'}`);
+            toast.error('Error creating list');
         });
     })
 

@@ -1,23 +1,21 @@
 'use server'
 
 import { hash } from 'bcrypt';
-import { getServerSession } from 'next-auth';
 import { revalidatePath } from 'next/cache';
-import { Prisma, Role, User } from '@/generated/prisma';
+import { Role, User } from '@/generated/prisma';
 import prisma from '@/lib/prisma'
 import { RouterPath } from '@/utils/constants/routerPath';
 import { ActionResult } from '@/models/actionResponse';
 import { UsersShort } from '@/models/userShort';
 import { errorHandler } from '@/lib/errorHandlers';
-import { authConfig } from '@/lib/auth.config';
 import { errorWithDetails } from '@/utils/helpers/errorWithDetails';
+import { authorizeUser } from './auth-helpers';
 
-export async function createUserAction(data: Prisma.UserCreateInput): Promise<ActionResult<User>> {
+export async function createUserAction(data: {
+    name: string; email: string; password: string; role: Role
+}): Promise<ActionResult<User>> {
     try {
-        const session = await getServerSession(authConfig);
-        if (!session || session.user.role !== Role.ADMIN) {
-            throw errorWithDetails({ message: "Forbidden: Admin access required", status: 403 });
-        }
+        await authorizeUser([Role.ADMIN]);
 
         const hashedPassword = await hash(data.password, 10);
         data.password = hashedPassword;
@@ -32,12 +30,16 @@ export async function createUserAction(data: Prisma.UserCreateInput): Promise<Ac
     }
 }
 
-export async function updateUserAction(id: string, data: Prisma.UserUpdateInput): Promise<ActionResult<null>> {
+export async function updateUserAction(id: string, data: { name: string, email: string, role: Role }): Promise<ActionResult<null>> {
     try {
+        await authorizeUser([Role.ADMIN]);
+
         await prisma.user.update({
             where: { id },
             data,
         });
+        revalidatePath(RouterPath.USERS);
+
         return { success: true, data: null, message: 'User updated successfully', status: 204 };
     } catch (error) {
         return errorHandler(error);
@@ -46,9 +48,13 @@ export async function updateUserAction(id: string, data: Prisma.UserUpdateInput)
 
 export async function deleteUserAction(id: string): Promise<ActionResult<null>> {
     try {
+        await authorizeUser([Role.ADMIN]);
+
         await prisma.user.delete({
             where: { id },
         });
+        revalidatePath(RouterPath.USERS);
+
         return { success: true, data: null, message: 'User deleted successfully', status: 204 };
     } catch (error) {
         return errorHandler(error);

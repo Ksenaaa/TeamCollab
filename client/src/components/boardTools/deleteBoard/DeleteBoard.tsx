@@ -23,7 +23,7 @@ export const DeleteBoard: React.FC<DeleteBoardProps> = ({ board }) => {
         startTransition(async () => {
             const result = await deleteBoardAction(board.id)
 
-            if (result.success) {
+            if (result?.success) {
                 toast.success(result.message);
                 onToggle();
 
@@ -31,7 +31,7 @@ export const DeleteBoard: React.FC<DeleteBoardProps> = ({ board }) => {
                 return
             }
 
-            toast.error(`Error deleting board: ${result.error || 'Unknown error'}`);
+            toast.error('Error deleting board');
         })
     }
 

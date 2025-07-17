@@ -30,13 +30,13 @@ export const CreateNewBoardModalForm: React.FC<CreateNewBoardModalFormProps> = (
         startTransition(async () => {
             const result = await createBoardAction({ ...data, project: { connect: { id: projectId } } });
 
-            if (result.success) {
+            if (result?.success) {
                 toast.success(result.message);
                 handleCloseModal();
                 return
             }
 
-            toast.error(`Error creating board: ${result.error || 'Unknown error'}`);
+            toast.error('Error creating board');
         });
     })
 

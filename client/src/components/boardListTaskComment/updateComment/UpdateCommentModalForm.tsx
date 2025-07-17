@@ -31,13 +31,13 @@ export const UpdateCommentModalForm: React.FC<UpdateCommentModalFormProps> = ({ 
         startTransition(async () => {
             const result = await updateCommentAction(comment.id, data)
 
-            if (result.success) {
+            if (result?.success) {
                 toast.success(result.message);
                 handleCloseModal();
                 return
             }
 
-            toast.error(`Error updating comment: ${result.error || 'Unknown error'}`);
+            toast.error('Error updating comment');
         });
     })
 

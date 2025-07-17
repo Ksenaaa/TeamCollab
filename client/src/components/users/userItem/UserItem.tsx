@@ -4,9 +4,16 @@ import { ModalApp } from "@/components/modal/ModalApp";
 import { User } from "@/generated/prisma";
 import { getAvatarBg } from "@/utils/helpers/getAvatarBg";
 import { useToggle } from "@/utils/hooks/useToggle";
+import { DeleteUser } from "../deleteUser/DeleteUser";
+import { UpdateUser } from "../updateUser/UpdateUser";
 
 interface MemberItemProps {
-    user: User
+    user: User & {
+        _count: {
+            tasks: number
+            comments: number
+        }
+    }
 }
 
 export const UserItem: React.FC<MemberItemProps> = ({ user }) => {
@@ -32,9 +39,32 @@ export const UserItem: React.FC<MemberItemProps> = ({ user }) => {
             </div>
 
             <ModalApp isOpen={isOpen} onClose={onToggle} header="User Details" onAgree={onToggle}>
-                <p><strong>Name:</strong> {user.name}</p>
-                <p><strong>Email:</strong> {user.email}</p>
-                <p><strong>Role:</strong> {user.role}</p>
+                <div className="w-100 max-w-full flex flex-col break-all">
+                    <div className="flex flex-row items-center justify-start gap-2">
+                        <p className="shrink-0 font-bold">Name:</p>
+                        <p>{user.name}</p>
+                    </div>
+                    <div className="flex flex-row items-center justify-start gap-2">
+                        <p className="shrink-0 font-bold">Email:</p>
+                        <p>{user.email}</p>
+                    </div>
+                    <div className="flex flex-row items-center justify-start gap-2">
+                        <p className="shrink-0 font-bold">Role:</p>
+                        <p>{user.role}</p>
+                    </div>
+                    <div className="flex flex-row items-center justify-start gap-2">
+                        <p className="shrink-0 font-bold">Tasks:</p>
+                        <p className="text-indigo font-bold">{user._count.tasks}</p>
+                    </div>
+                    <div className="flex flex-row items-center justify-start gap-2">
+                        <p className="shrink-0 font-bold">Comments:</p>
+                        <p className="text-indigo font-bold">{user._count.comments}</p>
+                    </div>
+                </div>
+                <div className="flex flex-row mt-3">
+                    <UpdateUser user={user} />
+                    <DeleteUser user={user} />
+                </div>
             </ModalApp>
         </>
     );

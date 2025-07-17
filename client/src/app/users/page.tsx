@@ -5,7 +5,19 @@ import prisma from "@/lib/prisma";
 import { CreateNewUser } from "@/components/users/createNewUser/CreateNewUser";
 
 export default async function UsersPage() {
-  const users = await prisma.user.findMany()
+  const users = await prisma.user.findMany({
+    orderBy: {
+      name: 'asc'
+    },
+    include: {
+      _count: {
+        select: {
+          tasks: true,
+          comments: true
+        }
+      }
+    }
+  })
 
   return (
     <div className="flex flex-col h-full">

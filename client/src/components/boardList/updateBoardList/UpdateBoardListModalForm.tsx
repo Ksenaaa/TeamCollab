@@ -31,13 +31,13 @@ export const UpdateBoardListModalForm: React.FC<UpdateBoardListModalFormProps> =
         startTransition(async () => {
             const result = await updateListAction(list.id, data)
 
-            if (result.success) {
+            if (result?.success) {
                 toast.success(result.message);
                 handleCloseModal();
                 return
             }
 
-            toast.error(`Error updating list: ${result.error || 'Unknown error'}`);
+            toast.error('Error updating list');
         });
     })
 

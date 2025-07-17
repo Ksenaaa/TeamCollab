@@ -29,13 +29,13 @@ export const CreateNewProjectModalForm: React.FC<CreateNewProjectModalFormProps>
         startTransition(async () => {
             const result = await createProjectAction(data);
 
-            if (result.success) {
+            if (result?.success) {
                 toast.success(result.message);
                 handleCloseModal();
                 return
             }
 
-            toast.error(`Error creating project: ${result.error || 'Unknown error'}`);
+            toast.error('Error creating project');
         });
     })
 

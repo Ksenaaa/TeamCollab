@@ -1,11 +1,11 @@
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { UserFormData, UserSchema } from "./constants/userSchema";
+import { UserFormData, UserSchema } from "../constants/userSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ModalApp } from "@/components/modal/ModalApp";
 import { FormInput } from "@/components/form/FormInput";
 import { FormCombobox } from "@/components/form/FormCombobox";
-import { defaultValuesUser } from "./constants/defaultValuesUser";
+import { defaultValuesUser } from "../constants/defaultValuesUser";
 import { userRoles } from "@/utils/constants/userRoles";
 import { createUserAction } from "@/actions/userActions";
 import { toast } from "react-toastify";
@@ -33,13 +33,13 @@ export const CreateNewUserModalForm: React.FC<CreateNewUserModalFormProps> = ({ 
         startTransition(async () => {
             const result = await createUserAction({ ...data, role: data.role?.id })
 
-            if (result.success) {
+            if (result?.success) {
                 toast.success(result.message);
                 handleCloseModal();
                 return
             }
 
-            if (result.details) {
+            if (result?.details) {
                 Object.entries(result.details).forEach(([field, messages]) => {
                     setError(field as keyof UserFormData, {
                         type: 'manual',
@@ -50,7 +50,7 @@ export const CreateNewUserModalForm: React.FC<CreateNewUserModalFormProps> = ({ 
                 return
             }
 
-            toast.error(`Error creating user: ${result.error || 'Unknown error'}`);
+            toast.error('Error creating user');
         });
     })
 

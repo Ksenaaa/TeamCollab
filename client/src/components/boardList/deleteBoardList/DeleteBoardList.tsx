@@ -19,13 +19,13 @@ export const DeleteBoardList: React.FC<DeleteBoardListProps> = ({ list }) => {
         startTransition(async () => {
             const result = await deleteListAction(list.id)
 
-            if (result.success) {
+            if (result?.success) {
                 toast.success(result.message);
                 onToggle();
                 return
             }
 
-            toast.error(`Error deleting list: ${result.error || 'Unknown error'}`);
+            toast.error('Error deleting list');
         })
     }
 
