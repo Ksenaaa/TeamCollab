@@ -16,6 +16,7 @@ const eslintConfig = [
       "node_modules/**",
       ".next/**",
       ".prisma/**",
+      "src/generated/prisma/**"
     ],
   },
   {
