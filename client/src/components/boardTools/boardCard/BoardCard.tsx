@@ -1,3 +1,5 @@
+'use client'
+
 import Link from "next/link";
 import { Board } from "@/generated/prisma";
 import { StatusElement } from "@/components/statusElement/StatusElement";

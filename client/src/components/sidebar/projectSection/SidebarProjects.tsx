@@ -1,3 +1,5 @@
+'use client'
+
 import { Project } from "@/generated/prisma"
 import { memo } from "react";
 import { ComboboxCustom } from "@/components/combobox/Combobox";

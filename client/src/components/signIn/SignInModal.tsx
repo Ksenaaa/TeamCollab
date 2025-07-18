@@ -1,6 +1,6 @@
 'use client'
 
-import { memo, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,14 +16,9 @@ import { Button } from "@/components/button/Button";
 import { AuthProviders } from "@/utils/constants/authProvider";
 import { useToggle } from "@/utils/hooks/useToggle";
 
-interface SignInModalProps {
-    isOpenModal?: boolean,
-    onCloseModal?: () => void,
-}
-
 const callbackUrl = `/${RouterPath.PROJECTS}`
 
-export const SignInModal: React.FC<SignInModalProps> = memo(({ }) => {
+export const SignInModal = () => {
     const { isOpen: isOpenModal, onToggle: onCloseModal } = useToggle(true);
     const [currentAuthProvider, setCurrentAuthProvider] = useState<AuthProviders | null>(null);
     const [isPending, startTransition] = useTransition();
@@ -79,8 +74,8 @@ export const SignInModal: React.FC<SignInModalProps> = memo(({ }) => {
                 toast.success(`Successfully signed in with ${provider}`);
                 onCloseModal();
             } catch (error) {
-                console.error(`Error signing in with ${provider}:`, error);
-                toast.error(`Failed to sign in with ${provider}.`);
+                console.error(`Error signing in with ${provider}: `, error);
+                toast.error(`Failed to sign in with ${provider}`);
             } finally {
                 setCurrentAuthProvider(null);
             }
@@ -133,6 +128,4 @@ export const SignInModal: React.FC<SignInModalProps> = memo(({ }) => {
             </div>
         </ModalApp>
     )
-})
-
-SignInModal.displayName = 'SignInModal'
+}

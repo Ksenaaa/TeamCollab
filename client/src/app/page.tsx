@@ -1,6 +1,6 @@
 import { PublicPage } from "@/components/publicPage/PublicPage";
 
-export default async function Main() {
+export default function Main() {
   return (
     <PublicPage />
   );

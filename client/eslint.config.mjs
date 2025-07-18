@@ -19,13 +19,6 @@ const eslintConfig = [
       "src/generated/prisma/**"
     ],
   },
-  {
-    files: ["**/*.ts", "**/*.tsx"],
-    rules: {
-      "@typescript-eslint/no-empty-object-type": "off",
-      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
-    },
-  },
 ];
 
 export default eslintConfig;
