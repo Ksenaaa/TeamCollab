@@ -23,7 +23,7 @@ export function useAsyncData<T,>(action?: () => Promise<ActionResult<T[]>>) {
                     console.error('Failed to fetch options:', error.message);
                 });
         });
-    }, []);
+    }, [action]);
 
     return { data, isPending }
 }
