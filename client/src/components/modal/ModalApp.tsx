@@ -1,3 +1,5 @@
+'use client'
+
 import { DialogPanel, DialogTitle } from "@headlessui/react";
 import ConfirmIcon from "@/assets/icons/check-icon.svg";
 import RejectIcon from "@/assets/icons/cross-icon.svg";

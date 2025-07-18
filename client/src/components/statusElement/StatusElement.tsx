@@ -1,3 +1,5 @@
+'use client'
+
 import { Status } from "@/generated/prisma"
 import { statusMeta } from "@/utils/constants/statusMeta"
 
