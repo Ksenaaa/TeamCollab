@@ -32,7 +32,7 @@ export const ModalApp = ({
                 <DialogTitle className="text-base font-semibold text-indigo text-center sm:text-left bg-white px-2 sm:px-4 md:px-6 py-4">
                     {header}
                 </DialogTitle>
-                <div className="bg-white px-2 sm:px-4 md:px-6 mb-3 sm:mb-4 flex flex-col overflow-scroll">
+                <div className="bg-white px-2 py-1 sm:px-4 md:px-6 mb-3 sm:mb-4 flex flex-col overflow-scroll">
                     {children}
                 </div>
                 <div className="bg-gray-100 px-2 py-1 flex flex-row justify-end items-center">

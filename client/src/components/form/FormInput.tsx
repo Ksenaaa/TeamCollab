@@ -6,9 +6,10 @@ type FormInputProps<T extends FieldValues> = {
     fieldName: FieldPath<T>,
     fieldLabel: string,
     type?: string,
+    isAutoComplete?: boolean,
 }
 
-export const FormInput = <T extends FieldValues>({ control, fieldName, fieldLabel, type }: FormInputProps<T>) => {
+export const FormInput = <T extends FieldValues>({ control, fieldName, fieldLabel, type, isAutoComplete }: FormInputProps<T>) => {
     const { field, fieldState: { error } } = useController({
         name: fieldName,
         control
@@ -21,6 +22,7 @@ export const FormInput = <T extends FieldValues>({ control, fieldName, fieldLabe
             type={type}
             placeholder={fieldLabel}
             errorText={error?.message}
+            isAutoComplete={isAutoComplete}
         />
     );
 };

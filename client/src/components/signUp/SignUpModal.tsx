@@ -9,25 +9,27 @@ import { FormInput } from "@/components/form/FormInput";
 import { toast } from "react-toastify";
 import GitHubIcon from "@/assets/icons/github-icon.svg";
 import GoogleIcon from "@/assets/icons/google-icon.svg";
-import { UserSignInFormData, UserSignInSchema } from "./constants/userSignInSchema";
 import { useRouter } from "next/navigation";
 import { RouterPath } from "@/utils/constants/routerPath";
 import { Button } from "@/components/button/Button";
 import { AuthProviders } from "@/utils/constants/authProvider";
 import { useToggle } from "@/utils/hooks/useToggle";
 import Link from "next/link";
+import { UserSignUpFormData, UserSignUpSchema } from "./constants/userSignUpSchema";
+import { createUserAction } from "@/actions/userActions";
+import { Role } from "@/generated/prisma";
 
 const callbackUrl = `/${RouterPath.PROJECTS}`
 
-export const SignInModal = () => {
+export const SignUpModal = () => {
     const { isOpen: isOpenModal, onToggle: onCloseModal } = useToggle(true);
     const [currentAuthProvider, setCurrentAuthProvider] = useState<AuthProviders | null>(null);
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
 
-    const { handleSubmit, control, reset } = useForm<UserSignInFormData>({
-        defaultValues: { email: '', password: '' },
-        resolver: zodResolver(UserSignInSchema),
+    const { handleSubmit, control, reset, setError } = useForm<UserSignUpFormData>({
+        defaultValues: { email: '', password: '', confirmPassword: '', name: '' },
+        resolver: zodResolver(UserSignUpSchema),
     });
 
     const handleCloseModal = () => {
@@ -42,22 +44,44 @@ export const SignInModal = () => {
         reset();
     }
 
-    const handleSignInUser = handleSubmit((data: UserSignInFormData) => {
+    const handleSignUpUser = handleSubmit((data: UserSignUpFormData) => {
         setCurrentAuthProvider(AuthProviders.CREDENTIALS);
 
         startTransition(async () => {
             try {
-                const result = await signIn(AuthProviders.CREDENTIALS, {
-                    redirect: false,
-                    email: data.email,
-                    password: data.password,
-                });
+                const resultNewUser = await createUserAction({
+                    email: data.email, name: data.name, password: data.password, role: Role.EDITOR_LIST
+                })
 
-                if (result?.error) throw new Error(result?.error);
-                if (result?.ok) {
-                    toast.success("Successfully signed in");
-                    handleCloseModalAndRedirect();
+                if (resultNewUser?.success) {
+                    toast.success(resultNewUser.message);
+
+                    const result = await signIn(AuthProviders.CREDENTIALS, {
+                        redirect: false,
+                        email: data.email,
+                        password: data.password,
+                    });
+
+                    if (result?.error) throw new Error(result?.error);
+                    if (result?.ok) {
+                        toast.success("Successfully signed in");
+                        handleCloseModalAndRedirect();
+                    }
+                    return
                 }
+
+                if (resultNewUser?.details) {
+                    Object.entries(resultNewUser.details).forEach(([field, messages]) => {
+                        setError(field as keyof UserSignUpFormData, {
+                            type: 'manual',
+                            message: messages.join(', '),
+                        });
+                    });
+                    toast.error(`Please correct the errors in the form`);
+                    return
+                }
+
+                toast.error('Error creating user');
             } catch (error: unknown) {
                 toast.error((error instanceof Error) ? error.message : "An unexpected error occurred");
             } finally {
@@ -66,7 +90,7 @@ export const SignInModal = () => {
         });
     })
 
-    const handleSocialSignIn = async (provider: AuthProviders) => {
+    const handleSocialSignUp = async (provider: AuthProviders) => {
         setCurrentAuthProvider(provider)
 
         startTransition(async () => {
@@ -87,16 +111,18 @@ export const SignInModal = () => {
         <ModalApp
             isOpen={isOpenModal}
             onClose={handleCloseModal}
-            header="Sign In"
+            header="Create New Account"
             isPending={isPending}
         >
-            <div className="w-100 max-w-full flex flex-col gap-4">
-                <FormInput fieldName="email" fieldLabel="Email" control={control} />
-                <FormInput fieldName="password" fieldLabel="Password" control={control} type="password" />
+            <form className="w-100 max-w-full flex flex-col gap-4">
+                <FormInput fieldName="email" fieldLabel="Email" control={control} isAutoComplete={false} />
+                <FormInput fieldName="name" fieldLabel="Name" control={control} isAutoComplete={false} />
+                <FormInput fieldName="password" fieldLabel="Password" control={control} type="password" isAutoComplete={false} />
+                <FormInput fieldName="confirmPassword" fieldLabel="Confirm password" type="password" control={control} isAutoComplete={false} />
 
                 <Button
-                    title="Sign In"
-                    onClick={handleSignInUser}
+                    title="Create account"
+                    onClick={handleSignUpUser}
                     isLoading={isPending && currentAuthProvider === AuthProviders.CREDENTIALS}
                     disabled={isPending}
                 />
@@ -112,29 +138,29 @@ export const SignInModal = () => {
 
                 <div className="flex flex-col gap-3">
                     <Button
-                        title="Sign in with Google"
+                        title="Create with Google"
                         iconStart={<GoogleIcon className='w-4 h-4' />}
-                        onClick={() => handleSocialSignIn(AuthProviders.GOOGLE)}
+                        onClick={() => handleSocialSignUp(AuthProviders.GOOGLE)}
                         isLoading={isPending && currentAuthProvider === AuthProviders.GOOGLE}
                         disabled={isPending}
                     />
                     <Button
-                        title="Sign in with GitHub"
+                        title="Create with GitHub"
                         iconStart={<GitHubIcon className='w-4 h-4' />}
-                        onClick={() => handleSocialSignIn(AuthProviders.GITHUB)}
+                        onClick={() => handleSocialSignUp(AuthProviders.GITHUB)}
                         isLoading={isPending && currentAuthProvider === AuthProviders.GITHUB}
                         disabled={isPending}
                     />
                 </div>
 
-                <div className="relative text-sm text-gray-600 mt-3">
-                    New to Task Board? <span className="text-indigo">
-                        <Link href="/auth/signup" className="text-indigo font-semibold hover:text-indigo-100 transition duration-300 ease-in-out">
-                            Create an account
+                <div className="relative text-sm text-gray-600">
+                    Already have an account?? <span className="text-indigo">
+                        <Link href="/auth/signin" className="text-indigo font-semibold hover:text-indigo-100 transition duration-300 ease-in-out">
+                            Sign in
                         </Link>
                     </span>
                 </div>
-            </div>
+            </form>
         </ModalApp>
     )
 }
