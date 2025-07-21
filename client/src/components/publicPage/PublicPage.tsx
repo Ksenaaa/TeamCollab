@@ -12,7 +12,7 @@ export const PublicPage = () => {
 
             <section className="bg-indigo text-white py-16 px-6 md:px-12 lg:px-24 text-center rounded-4xl shadow-lg">
                 <h2 className="text-4xl font-bold mb-6">Ready to Boost Your Productivity?</h2>
-                <Link href="/auth/signin" className="bg-white text-indigo font-semibold py-3 px-8 rounded-lg shadow-lg hover:bg-gray-200 transition duration-300 ease-in-out transform hover:-translate-y-1">
+                <Link href="/auth/signin" className="bg-white text-indigo font-semibold py-3 px-8 rounded-lg shadow-lg hover:bg-gray-200 transition duration-300 ease-in-out transform hover:-translate-y-1 flex justify-center items-center">
                     Log In and start Your Journey
                 </Link>
             </section>

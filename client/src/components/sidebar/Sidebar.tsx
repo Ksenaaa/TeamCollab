@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react"
 import { SignInUser } from "../signIn/SignInUser"
 import { SignOutUser } from "../signout/SignOutUser"
 import { RouterPath } from "@/utils/constants/routerPath"
+import { SignUpUser } from "../signUp/SignUpUser"
 
 interface SidebarProps {
     projects: Project[]
@@ -32,7 +33,7 @@ export const Sidebar: React.FC<SidebarProps> = memo(({ projects }) => {
 
     return (
         <aside className="w-0 invisible p-0 sm:visible sm:p-6 sm:w-64 space-y-6 bg-white shadow-lg flex flex-col rounded-r-xl">
-            <div className="flex flex-col items-start gap-2 mb-8 p-4 rounded-lg border-1 border-gray-200">
+            <div className="flex flex-col items-start gap-2 mb-8 px-4 py-5 rounded-lg border-1 border-gray-200">
                 {session ? (
                     <>
                         <div className="flex flex-col w-full items-start">
@@ -43,10 +44,11 @@ export const Sidebar: React.FC<SidebarProps> = memo(({ projects }) => {
                         <SignOutUser />
                     </>
                 ) : (
-                    <>
+                    <div className="flex flex-col w-full items-center gap-3">
                         <p className="text-lg">Not signed in</p>
                         <SignInUser />
-                    </>
+                        <SignUpUser />
+                    </div>
                 )}
             </div>
             {session &&

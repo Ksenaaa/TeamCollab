@@ -15,8 +15,6 @@ export async function createUserAction(data: {
     name: string; email: string; password: string; role: Role
 }): Promise<ActionResult<User>> {
     try {
-        await authorizeUser([Role.ADMIN]);
-
         const hashedPassword = await hash(data.password, 10);
         data.password = hashedPassword;
 

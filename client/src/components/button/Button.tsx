@@ -7,19 +7,22 @@ interface ButtonProps {
     isLoading?: boolean;
     onClick?: () => void;
     disabled?: boolean;
+    mode?: 'full' | 'outline'
 }
 
 export const Button: React.FC<ButtonProps> = ({
-    title, disabled, iconStart, iconEnd, isLoading, onClick
+    title, disabled, iconStart, iconEnd, isLoading, mode = 'full', onClick
 }) => {
     return (
         <button
             onClick={onClick}
             disabled={disabled || isLoading}
-            className={`text-white font-bold py-2 px-5 rounded-full relative flex flex-row items-center justify-center   
+            className={`min-w-[120px] max-w-full font-bold py-2 px-5 rounded-full relative flex flex-row items-center justify-center transition-all duration-200    
                 ${disabled || isLoading
                     ? 'bg-gray-200'
-                    : 'bg-indigo shadow-lg hover:bg-indigo-100 transition-all duration-200 transform hover:scale-101 focus:outline-none focus:ring-2 focus:ring-indigo focus:ring-opacity-50 cursor-pointer'
+                    : mode === 'full'
+                        ? 'text-white bg-indigo shadow-md hover:bg-indigo-100 hover:ring-indigo-100 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-indigo focus:ring-opacity-50 cursor-pointer'
+                        : 'text-indigo bg-white shadow-md ring-1 ring-indigo hover:ring-indigo-100 hover:ring-2 focus:outline-none focus:ring-2 focus:ring-opacity-50 cursor-pointer'
                 }
             `}
         >

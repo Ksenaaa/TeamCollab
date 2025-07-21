@@ -11,10 +11,13 @@ export interface InputTextProps {
     errorText?: string | number,
     placeholder?: string,
     className?: string,
-    field?: FieldValues
+    field?: FieldValues,
+    isAutoComplete?: boolean,
 }
 
-export const InputText: React.FC<InputTextProps> = ({ name, label, type, value, field, errorText, onChange, placeholder, className }) => {
+export const InputText: React.FC<InputTextProps> = ({
+    name, label, type, value, field, errorText, onChange, placeholder, className, isAutoComplete = true
+}) => {
     return (
         <div className="w-full">
             {label && <label htmlFor={name} className="text-sm font-medium text-indigo block text-start break-words">{label}</label>}
@@ -23,6 +26,7 @@ export const InputText: React.FC<InputTextProps> = ({ name, label, type, value, 
                 value={value || ''}
                 onChange={onChange}
                 name={name}
+                autoComplete={isAutoComplete ? '' : 'new-password'}
                 type={type}
                 placeholder={placeholder}
                 className={`block w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-7 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-200 focus:ring-2 focus:ring-inset focus:ring-indigo sm:text-sm sm:leading-6

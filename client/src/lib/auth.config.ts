@@ -126,6 +126,7 @@ export const authConfig: AuthOptions = {
     },
     pages: {
         signIn: '/auth/signin',
+        newUser: '/auth/signup',
         error: '/auth/error',
         verifyRequest: '/auth/verify-request',
     },
