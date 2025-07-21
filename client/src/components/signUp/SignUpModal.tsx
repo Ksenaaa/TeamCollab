@@ -46,7 +46,7 @@ export const SignUpModal = () => {
 
     const handleSignUpUser = handleSubmit((data: UserSignUpFormData) => {
         setCurrentAuthProvider(AuthProviders.CREDENTIALS);
-        console.log(data)
+
         startTransition(async () => {
             try {
                 const resultNewUser = await createUserAction({
