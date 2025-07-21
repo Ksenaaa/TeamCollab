@@ -11,13 +11,14 @@ import { updateListsOrderAction } from '@/actions/listActions';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { updateTasksOrderAction, updateTasksOrderInDifferentListsAction } from '@/actions/taskActions';
+import { LoadingIcon } from '../loading/Loading';
 
 interface BoardProps {
     board: BoardDataType
 }
 
 export const BoardComponent: React.FC<BoardProps> = ({ board }) => {
-    const [, startTransition] = useTransition();
+    const [isPending, startTransition] = useTransition();
     const [boardData, setBoard] = useState<BoardDataType>(board);
     const router = useRouter();
 
@@ -132,7 +133,12 @@ export const BoardComponent: React.FC<BoardProps> = ({ board }) => {
     }, [board])
 
     return (
-        <div className="h-fit border border-solid border-indigo rounded-xl p-4 mx-auto my-0">
+        <div className="h-fit border border-solid border-indigo rounded-xl p-4 mx-auto my-0 relative overflow-hidden">
+            {isPending &&
+                <div className="absolute top-0 right-0 left-0 bottom-0 flex justify-center items-center bg-transp-gray-light z-2000">
+                    <LoadingIcon />
+                </div>
+            }
             <div className="h-full flex flex-col gap-4">
                 <div className="flex flex-col sm:flex-row gap-2 justify-between">
                     <CreateNewTask board={board} />
